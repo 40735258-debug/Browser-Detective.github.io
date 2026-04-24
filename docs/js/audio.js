@@ -1,13 +1,15 @@
-/*  Author: Sergio Pech
-    SET08801*/
+/* THE BROWSER DETECTIVE — music player (seamless across pages)
+   Author: Sergio Pech  //  SET08801*/
 
 (function () {
   "use strict";
+
 
   // Supports any format the browser supports: .mp3, .ogg, .wav, .m4a
   var MUSIC_FILE = "audio/music.mp3";
 
   var P = window.DetectiveProgress;
+
   var audio = new Audio(MUSIC_FILE);
   audio.loop = true;
   audio.preload = "auto";
@@ -61,6 +63,7 @@
     P.setMusicTime(audio.currentTime || 0);
   }
 
+
   window.addEventListener("pagehide", saveTime);
   window.addEventListener("beforeunload", saveTime);
   document.addEventListener("visibilitychange", function(){
@@ -99,13 +102,13 @@
     if (wasPlaying) start();
   }
 
-  // Music Across Pages
+  // Music Across Pages ---
   function autoResume(){
+    if (!P || !P.getMusicOn()) return;
     start();
-    if (P) P.setMusicOn(true);
 
     var kick = function(){
-      if (!isPlaying) start();
+      if (!isPlaying && P.getMusicOn()) start();
       document.removeEventListener("click",      kick, true);
       document.removeEventListener("keydown",    kick, true);
       document.removeEventListener("touchstart", kick, true);
