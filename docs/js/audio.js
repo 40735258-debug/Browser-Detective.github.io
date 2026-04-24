@@ -2,12 +2,11 @@
 (function () {
   "use strict";
 
-  // Supports any format the browser supports: .mp3, .ogg, .wav, .m4a
   var MUSIC_FILE = "audio/music.mp3";
 
   var P = window.DetectiveProgress;
 
-  var audio = new Audio(MUSIC_FILE);
+  var audio = document.getElementById("bg-music") || new Audio(MUSIC_FILE);
   audio.loop = true;
   audio.preload = "auto";
   audio.volume = P ? P.getMusicVol() : 0.25;
@@ -15,7 +14,7 @@
   var isPlaying = false;
   var saveTimer = null;
 
-  audio.addEventListener("play",  function(){
+  audio.addEventListener("play", function(){
     isPlaying = true;
     startSaveTimer();
   });
@@ -25,7 +24,6 @@
     saveTime();
   });
   audio.addEventListener("ended", function(){
-
     isPlaying = false;
     if (P) P.setMusicTime(0);
   });
@@ -36,7 +34,6 @@
 
   function startSaveTimer(){
     stopSaveTimer();
-
     saveTimer = setInterval(saveTime, 1000);
   }
   function stopSaveTimer(){
@@ -48,7 +45,6 @@
     P.setMusicTime(audio.currentTime || 0);
   }
 
-
   window.addEventListener("pagehide", saveTime);
   window.addEventListener("beforeunload", saveTime);
   document.addEventListener("visibilitychange", function(){
@@ -57,7 +53,7 @@
 
   function start(){
     var p = audio.play();
-    if (p && typeof p.catch === "function") p.catch(function(){  });
+    if (p && typeof p.catch === "function") p.catch(function(){});
   }
   function stop(){ audio.pause(); }
 
@@ -87,22 +83,44 @@
     if (wasPlaying) start();
   }
 
-
+  // Music Across Pages
   function autoResume(){
-
+    var tryPlay = function(){
+      if (P) {
+        var t = P.getMusicTime();
+        if (t > 0 && isFinite(audio.duration) && t < audio.duration){
+          try { audio.currentTime = t; } catch(e){}
+        }
+      }
+      audio.muted = false;
       start();
       if (P) P.setMusicOn(true);
+    };
 
-      var kick = function(){
-        if (!isPlaying) start();
-        document.removeEventListener("click",      kick, true);
-        document.removeEventListener("keydown",    kick, true);
-        document.removeEventListener("touchstart", kick, true);
-      };
-      document.addEventListener("click",      kick, true);
-      document.addEventListener("keydown",    kick, true);
-      document.addEventListener("touchstart", kick, true);
+
+    audio.muted = true;
+    start();
+    if (P) P.setMusicOn(true);
+
+
+    if (audio.readyState >= 1) {
+      tryPlay();
+    } else {
+      audio.addEventListener("loadedmetadata", tryPlay, { once: true });
     }
+
+    // Fallback: unmute and play on first interaction
+    var kick = function(){
+      if (!isPlaying || audio.muted) tryPlay();
+      document.removeEventListener("click",      kick, true);
+      document.removeEventListener("keydown",    kick, true);
+      document.removeEventListener("touchstart", kick, true);
+    };
+    document.addEventListener("click",      kick, true);
+    document.addEventListener("keydown",    kick, true);
+    document.addEventListener("touchstart", kick, true);
+  }
+
   window.DetectiveAudio = {
     start:      start,
     stop:       stop,
