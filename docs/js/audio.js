@@ -83,35 +83,38 @@
     if (wasPlaying) start();
   }
 
-  // Music Across Pages
-  function autoResume(){
-    var tryPlay = function(){
-      if (P) {
-        var t = P.getMusicTime();
-        if (t > 0 && isFinite(audio.duration) && t < audio.duration){
-          try { audio.currentTime = t; } catch(e){}
-        }
+
+  function seekAndPlay(){
+    if (P) {
+      var t = P.getMusicTime();
+      if (t > 0 && isFinite(audio.duration) && t < audio.duration){
+        try { audio.currentTime = t; } catch(e){}
       }
-      audio.muted = false;
-      start();
-      if (P) P.setMusicOn(true);
-    };
-
-
-    audio.muted = true;
+    }
+    audio.muted = false;
     start();
     if (P) P.setMusicOn(true);
+  }
 
-
+  // Music Across Pages
+  function autoResume(){
     if (audio.readyState >= 1) {
-      tryPlay();
+      seekAndPlay();
     } else {
-      audio.addEventListener("loadedmetadata", tryPlay, { once: true });
+      audio.muted = true;
+      start();
+
+      audio.addEventListener("loadedmetadata", function(){
+        audio.pause();
+        seekAndPlay();
+      }, { once: true });
     }
 
-    // Fallback: unmute and play on first interaction
+    if (P) P.setMusicOn(true);
+
+    // Fallback for autoplay block
     var kick = function(){
-      if (!isPlaying || audio.muted) tryPlay();
+      if (!isPlaying || audio.muted) seekAndPlay();
       document.removeEventListener("click",      kick, true);
       document.removeEventListener("keydown",    kick, true);
       document.removeEventListener("touchstart", kick, true);
