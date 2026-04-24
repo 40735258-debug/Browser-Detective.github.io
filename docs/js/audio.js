@@ -3,7 +3,7 @@
   "use strict";
 
   // Supports any format the browser supports: .mp3, .ogg, .wav, .m4a
-  var MUSIC_FILE = "music.mp3";
+  var MUSIC_FILE = "audio/music.mp3";
 
   var P = window.DetectiveProgress;
 
