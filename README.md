@@ -4,7 +4,9 @@ Sergio Pech 40735258
 
 ## Live Demonstration
 
-[The Browser Detective](https://40735258-debug.github.io/Browser-Detective.github.io/Game/index.html)
+<a href="https://40735258-debug.github.io/Browser-Detective.github.io/Game/index.html" target="_blank" rel="noopener noreferrer">
+The Browser Detective
+</a>
 
 ## About
 
