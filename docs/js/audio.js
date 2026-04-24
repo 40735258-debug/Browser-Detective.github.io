@@ -15,15 +15,6 @@
   var isPlaying = false;
   var saveTimer = null;
 
-
-  audio.addEventListener("loadedmetadata", function(){
-    if (!P) return;
-    var t = P.getMusicTime();
-    if (t > 0 && isFinite(audio.duration) && t < audio.duration){
-      try { audio.currentTime = t; } catch(e){}
-    }
-  });
-
   audio.addEventListener("play",  function(){
     isPlaying = true;
     startSaveTimer();

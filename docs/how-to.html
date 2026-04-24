@@ -1,0 +1,259 @@
+<!-- Author: Sergio Pech · SET08801 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How To Play — The Browser Detective</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+
+    <style>
+        .how-wrap{ width:100%; height:100%; display:flex; flex-direction:column; gap:18px; }
+        .how-title{
+          margin: 6px 0 0; text-align:center;
+          font-size: 54px; letter-spacing: .18em;
+          text-transform: uppercase; font-weight: 900;
+          color: rgba(0,255,209,.95);
+          text-shadow: 0 0 24px rgba(0,255,209,.18);
+        }
+        :root[data-theme="light"] .how-title{
+          color: var(--cyan2);
+          text-shadow: 0 0 18px rgba(2,133,160,.15);
+        }
+        .how-grid{
+          display:grid; grid-template-columns: 1.15fr .85fr;
+          gap: 28px; align-items: start; width:100%;
+        }
+        .steps{ padding-top: 6px; }
+        .step{
+          margin: 0 0 22px; line-height: 1.9; font-size: 16px; max-width: 640px;
+          color: rgba(215,226,255,.70);
+        }
+        :root[data-theme="light"] .step{ color: var(--muted-c); }
+        .step b{ color: rgba(215,226,255,.92); font-weight: 800; }
+        :root[data-theme="light"] .step b{ color: var(--text); }
+
+        .remember{
+          margin-top: 18px; line-height: 2; max-width: 640px;
+          color: rgba(215,226,255,.55);
+        }
+        :root[data-theme="light"] .remember{ color: var(--muted-c); }
+
+        .cards{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+        .card{
+          border-radius: 16px; padding: 22px 18px;
+          background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.30));
+          border: 1px solid rgba(120,170,255,.18);
+          box-shadow: 0 0 0 5px rgba(55,231,255,.03);
+          min-height: 140px;
+          display:flex; flex-direction:column;
+          justify-content:center; align-items:center; text-align:center;
+        }
+        :root[data-theme="light"] .card{
+          background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(245,248,254,.9));
+          border: 1px solid rgba(60,90,160,.18);
+        }
+        .icon-circle{
+          width:46px; height:46px; border-radius: 14px;
+          display:grid; place-items:center; margin-bottom: 10px;
+          background: rgba(255,47,146,.12);
+          border: 1px solid rgba(255,47,146,.35);
+          box-shadow: 0 0 20px rgba(255,47,146,.10);
+        }
+        .card h3{
+          margin: 6px 0 6px; font-size: 18px;
+          letter-spacing:.08em; text-transform: uppercase;
+          color: rgba(255,47,146,.95); font-weight: 900;
+        }
+        .card p{
+          margin:0; font-size: 13px; line-height: 1.7;
+          color: rgba(215,226,255,.62); max-width: 200px;
+        }
+        :root[data-theme="light"] .card p{ color: var(--muted-c); }
+        .svg{ width:22px; height:22px; fill: rgba(255,47,146,.95); }
+
+        .start-row{
+          display:flex; justify-content:center; padding-top:6px;
+        }
+
+        @media (max-width: 980px){
+          .how-grid{ grid-template-columns: 1fr; }
+          .cards{ grid-template-columns: 1fr 1fr; }
+          .how-title{ font-size: 38px; letter-spacing:.12em; }
+        }
+        @media (max-width: 560px){
+          .cards{ grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body class="cyber">
+<div class="particles" aria-hidden="true"></div>
+
+<main class="wrap">
+    <section class="window" role="region" aria-label="Browser Detective UI Prototype">
+
+        <div class="chrome">
+            <div class="dots" aria-hidden="true">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="tab" aria-hidden="true">
+                <span class="lock"></span>
+                <span>The Hidden Web</span>
+            </div>
+            <div class="addr" aria-hidden="true">
+                <span>https://40735258-debug.github.io/Browser-Detective.github.io/how-to-play</span>
+            </div>
+            <div class="icons" aria-hidden="true">
+                <div class="icon"></div><div class="icon"></div><div class="icon"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <aside class="devtools" aria-label="Navigation Panel">
+                <nav class="dev-top" aria-label="Main Navigation">
+                    <a class="dev-pill" href="index.html">Home</a>
+                    <a class="dev-pill active" href="how-to.html">How To Play</a>
+                    <a class="dev-pill" href="storyline.html">Storyline</a>
+                    <a class="dev-pill" href="levels.html">Level Select</a>
+                    <a class="dev-pill" href="leaderboard.html">Leaderboard</a>
+                    <a class="dev-pill" href="settings.html">Settings</a>
+                </nav>
+
+                <div class="codebox" aria-label="Clue preview">
+<pre style="margin:0;white-space:pre-wrap">
+<span class="cm">&lt;!-- HOW TO PLAY --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="kw">function</span> <span class="hl">investigate()</span> {
+    <span class="kw">console</span>.log(<span class="hl">"Inspect. Read. Decode."</span>);
+  }
+<span class="tag">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- Tip: clues hide in comments, CSS, and the console. --&gt;</span>
+</pre>
+                </div>
+
+                <div class="dev-bottom">
+                    <div class="mini">
+                        <h4>HTML</h4>
+                        <div class="line"><span class="cm">Hint:</span> Read hidden comments</div>
+                        <div class="line"><span class="cm">Look for:</span> suspicious IDs/classes</div>
+                        <div class="line"><span class="cm">Goal:</span> find the token</div>
+                    </div>
+                    <div class="mini">
+                        <h4>CSS</h4>
+                        <div class="line"><span class="cm">Tip:</span> opacity, display, visibility</div>
+                        <div class="line"><span class="cm">Search:</span> unusual class names</div>
+                        <div class="line"><span class="cm">Goal:</span> reveal hidden UI</div>
+                    </div>
+                    <div class="mini console">
+                        <h4>Console</h4>
+                        <div class="line"><span class="prompt-c">&gt;</span> investigate()</div>
+                        <div class="line"><span class="hint-c">Hint:</span> Decode the message in <span class="hl">style.css</span></div>
+                        <div class="line"><span class="prompt-c">&gt;</span> reveal()</div>
+                        <div class="line"><span class="hint-c">Output:</span> instructions loaded.</div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="page" aria-label="How To Play">
+                <div class="how-wrap">
+
+                    <h1 class="how-title">HOW TO PLAY</h1>
+
+                    <div class="how-grid">
+
+                        <div class="steps">
+                            <p class="step"><b>Step 1:</b> Right-click anywhere on the page and select <b>"Inspect"</b> to open the developer tools.</p>
+                            <p class="step"><b>Step 2:</b> Look for hidden elements in the HTML code — empty div tags, unusual comments, and misaligned text.</p>
+                            <p class="step"><b>Step 3:</b> Check the CSS panel for suspicious class names and hidden visibility properties like <b>opacity</b>, <b>display</b>, and <b>visibility</b>.</p>
+                            <p class="step"><b>Step 4:</b> Examine JavaScript files for encrypted messages, masked data feeds, and console commands that unlock clues.</p>
+                            <p class="step"><b>Step 5:</b> Piece together the evidence. Each clue points to the next action — a selector, a file, a command, or a hidden token.</p>
+                            <p class="step"><b>Step 6:</b> Use your findings to unlock the next level of investigation and move closer to exposing the truth behind the Hidden Web.</p>
+
+                            <p class="remember">
+                                <b>Remember:</b> The truth isn't on the surface — it's in the code. Trust your instincts, question everything,
+                                and follow the trail of hidden clues.
+                            </p>
+                        </div>
+
+                        <div>
+                            <div class="cards">
+
+                                <div class="card">
+                                    <div class="icon-circle" aria-hidden="true">
+                                        <svg class="svg" viewBox="0 0 24 24">
+                                            <path d="M12 2c-3.3 0-6 2.7-6 6v8c0 3.3 2.7 6 6 6s6-2.7 6-6V8c0-3.3-2.7-6-6-6zm1 3.1V10h-2V5.1c.3-.1.7-.1 1-.1s.7 0 1 .1z"/>
+                                        </svg>
+                                    </div>
+                                    <h3>Right Click</h3>
+                                    <p>Access hidden developer tools.</p>
+                                </div>
+
+                                <div class="card">
+                                    <div class="icon-circle" aria-hidden="true">
+                                        <svg class="svg" viewBox="0 0 24 24">
+                                            <path d="M8.7 16.6 3.1 12l5.6-4.6L10 9l-3.7 3 3.7 3-1.3 1.6zm6.6 0L14 15l3.7-3L14 9l1.3-1.6 5.6 4.6-5.6 4.6z"/>
+                                        </svg>
+                                    </div>
+                                    <h3>Inspect Code</h3>
+                                    <p>Find buried messages in HTML.</p>
+                                </div>
+
+                                <div class="card">
+                                    <div class="icon-circle" aria-hidden="true">
+                                        <svg class="svg" viewBox="0 0 24 24">
+                                            <path d="M19 13h-2.2c.1-.3.2-.7.2-1 0-1.7-1.3-3-3-3-.3 0-.7.1-1 .2V7c0-1.1-.9-2-2-2H9v2.2c-.3-.1-.7-.2-1-.2-1.7 0-3 1.3-3 3 0 .3.1.7.2 1H3v4h2.2c-.1.3-.2.7-.2 1 0 1.7 1.3 3 3 3 .3 0 .7-.1 1-.2V21h4v-2.2c.3.1.7.2 1 .2 1.7 0 3-1.3 3-3 0-.3-.1-.7-.2-1H21v-4h-2z"/>
+                                        </svg>
+                                    </div>
+                                    <h3>Solve Puzzles</h3>
+                                    <p>Decode encrypted data feeds.</p>
+                                </div>
+
+                                <div class="card">
+                                    <div class="icon-circle" aria-hidden="true">
+                                        <svg class="svg" viewBox="0 0 24 24">
+                                            <path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 1 1 6 0v3H9z"/>
+                                        </svg>
+                                    </div>
+                                    <h3>Unlock Truth</h3>
+                                    <p>Expose the hidden web's lies.</p>
+                                </div>
+
+                            </div>
+
+                            <div class="start-row" style="margin-top:22px">
+                                <a class="btn alt" href="level1.html" id="beginBtn">Begin Case 01 →</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </section>
+</main>
+
+<script>
+
+    (function () {
+      var btn = document.getElementById("beginBtn");
+      if (!btn) return;
+      btn.addEventListener("click", function (e) {
+        var P = window.DetectiveProgress;
+        if (!P) return;
+        if (P.hasPlayer()) return;
+        e.preventDefault();
+        P.promptForName({ navigateTo: "level1.html" });
+      });
+    })();
+</script>
+<script src="js/audio.js"></script>
+</body>
+</html>
