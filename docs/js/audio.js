@@ -1,12 +1,9 @@
-/* THE BROWSER DETECTIVE — music player (seamless across pages)
-   Author: Sergio Pech  //  SET08801*/
-
+/*Author: Sergio Pech  //  SET08801*/
 (function () {
   "use strict";
 
-
   // Supports any format the browser supports: .mp3, .ogg, .wav, .m4a
-  var MUSIC_FILE = "audio/music.mp3";
+  var MUSIC_FILE = "music.mp3";
 
   var P = window.DetectiveProgress;
 
@@ -18,8 +15,8 @@
   var isPlaying = false;
   var saveTimer = null;
 
-  audio.addEventListener("loadedmetadata", function()
-  {
+
+  audio.addEventListener("loadedmetadata", function(){
     if (!P) return;
     var t = P.getMusicTime();
     if (t > 0 && isFinite(audio.duration) && t < audio.duration){
@@ -27,31 +24,28 @@
     }
   });
 
-  audio.addEventListener("play",  function()
-  {
+  audio.addEventListener("play",  function(){
     isPlaying = true;
     startSaveTimer();
   });
-  audio.addEventListener("pause", function()
-  {
+  audio.addEventListener("pause", function(){
     isPlaying = false;
     stopSaveTimer();
-    saveTime();  // snapshot on pause
+    saveTime();
   });
-  audio.addEventListener("ended", function()
-  {
+  audio.addEventListener("ended", function(){
 
     isPlaying = false;
     if (P) P.setMusicTime(0);
   });
-  audio.addEventListener("error", function()
-  {
+  audio.addEventListener("error", function(){
     console.warn("[DetectiveAudio] Could not load '" + MUSIC_FILE +
                  "'. Place the file next to audio.js or update MUSIC_FILE.");
   });
 
   function startSaveTimer(){
     stopSaveTimer();
+
     saveTimer = setInterval(saveTime, 1000);
   }
   function stopSaveTimer(){
@@ -97,12 +91,12 @@
   function setTrack(src){
     var wasPlaying = isPlaying;
     stop();
-    if (P) P.setMusicTime(0);       
+    if (P) P.setMusicTime(0);       // new track, start from 0
     audio.src = src;
     if (wasPlaying) start();
   }
 
-  // Music Across Pages ---
+
   function autoResume(){
     if (!P || !P.getMusicOn()) return;
     start();
