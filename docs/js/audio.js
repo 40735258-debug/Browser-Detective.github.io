@@ -66,7 +66,7 @@
 
   function start(){
     var p = audio.play();
-    if (p && typeof p.catch === "function") p.catch(function(){ /* autoplay blocked */ });
+    if (p && typeof p.catch === "function") p.catch(function(){  });
   }
   function stop(){ audio.pause(); }
 
@@ -91,27 +91,27 @@
   function setTrack(src){
     var wasPlaying = isPlaying;
     stop();
-    if (P) P.setMusicTime(0);       // new track, start from 0
+    if (P) P.setMusicTime(0);
     audio.src = src;
     if (wasPlaying) start();
   }
 
 
   function autoResume(){
-    if (!P || !P.getMusicOn()) return;
-    start();
 
-    var kick = function(){
-      if (!isPlaying && P.getMusicOn()) start();
-      document.removeEventListener("click",      kick, true);
-      document.removeEventListener("keydown",    kick, true);
-      document.removeEventListener("touchstart", kick, true);
-    };
-    document.addEventListener("click",      kick, true);
-    document.addEventListener("keydown",    kick, true);
-    document.addEventListener("touchstart", kick, true);
-  }
+      start();
+      if (P) P.setMusicOn(true);
 
+      var kick = function(){
+        if (!isPlaying) start();
+        document.removeEventListener("click",      kick, true);
+        document.removeEventListener("keydown",    kick, true);
+        document.removeEventListener("touchstart", kick, true);
+      };
+      document.addEventListener("click",      kick, true);
+      document.addEventListener("keydown",    kick, true);
+      document.addEventListener("touchstart", kick, true);
+    }
   window.DetectiveAudio = {
     start:      start,
     stop:       stop,
