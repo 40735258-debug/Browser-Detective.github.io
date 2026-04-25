@@ -1,0 +1,126 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 04 The Console Cipher</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <style>
+        .vault {
+          background: linear-gradient(180deg, #0d1427, #07091a);
+          border: 1px solid #2a3d6b;
+          border-radius: 10px;
+          padding: 22px;
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--muted);
+          margin-top: 14px;
+        }
+        .vault .line { margin: 3px 0; }
+        .vault .sig  { color: var(--accent); }
+        .vault .fn   { color: var(--warn); }
+        .vault .str  { color: var(--accent-2); }
+
+        :root[data-theme="pink"] .vault { background: linear-gradient(180deg, #2a1028, #1a0815); border-color: #4a1845; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 04</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level3.html">← Case 03</a>
+            <a href="level5.html">Case 05 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 04 THE CONSOLE CIPHER</span>
+        Inside the vault.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            You reach Veyra's private vault. Reading the source isn't enough this time
+            it's a function, and you have to <em>run</em> it. Open the browser's
+            <code>Console</code> tab (inside devtools), type the command below, and hit Enter.
+            Whatever it returns, enter as your token.
+        </p>
+        <p class="story" style="margin-top:10px">
+            Run: <code>decryptVault()</code>
+        </p>
+        <p class="story" style="margin-top:10px; color: var(--muted)">
+            (Two other functions are defined too <code>hint()</code> if you're stuck,
+            and <code>caseFile()</code> for flavor. Only one unlocks the vault.)
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// vault source preview</div>
+        <div class="vault">
+            <div class="line"><span class="sig">function</span> <span class="fn">decryptVault</span>() {</div>
+            <div class="line">&nbsp;&nbsp;<span class="sig">const</span> parts = [<span class="str">"AC"</span>, <span class="str">"CE"</span>, <span class="str">"SS_"</span>, <span class="str">"VAU"</span>, <span class="str">"LT"</span>];</div>
+            <div class="line">&nbsp;&nbsp;<span class="sig">return</span> parts.join(<span class="str">""</span>);</div>
+            <div class="line">}</div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log enter returned token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="paste console return value" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_VAULT', levelNum: 4 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> press <code>F12</code>, click <code>Console</code>,
+            type <code>decryptVault()</code>, press Enter. The return value is the token.
+        </div>
+        <div class="next" id="next">
+            > vault cracked. the final investigation awaits:
+            <a href="level5.html">Case 05  The First Vault →</a>
+        </div>
+    </div>
+
+    <footer>case 04 of 15 // the console is a tool, not a read-only surface</footer>
+</div>
+
+<script src="js/audio.js"></script>
+<script>
+    //Case 4 Payload
+    function decryptVault() {
+      const parts = ["AC", "CE", "SS_", "VAU", "LT"];
+      const token = parts.join("");
+      console.log("%c> VAULT UNLOCKED", "color:#4cf0c7;font-weight:bold");
+      console.log("%c  token: " + token, "color:#ffd166");
+      return token;
+    }
+
+    function hint() {
+      console.log("%c> hint: call decryptVault() and read the return value.",
+                  "color:#7aa2ff");
+    }
+
+    function caseFile() {
+      console.log("%cCASE FILE — Dr. Otis Veyra", "color:#4cf0c7;font-weight:bold");
+      console.log("Last seen: logging into the intranet at 03:14 local.");
+      console.log("Known associates: the DOM, the stylesheet, the console.");
+    }
+
+    //Greetings
+    console.log("%c[ vault online ]", "color:#4cf0c7");
+    console.log("%cAvailable commands: decryptVault(), hint(), caseFile()",
+                "color:#7aa2ff");
+</script>
+</body>
+</html>
