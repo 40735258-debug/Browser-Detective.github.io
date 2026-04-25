@@ -1,4 +1,5 @@
-/*Author: Sergio Pech  //  SET08801*/
+/* Author: Sergio Pech
+   SET08801 */
 (function () {
   "use strict";
 
