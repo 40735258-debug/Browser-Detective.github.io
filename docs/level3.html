@@ -1,0 +1,123 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 03  Seeing Through the Veil</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <style>
+        .blueprint {
+          background: #060a15;
+          border: 1px solid #22314f;
+          border-radius: 8px;
+          padding: 20px;
+          font-family: var(--mono);
+          font-size: 14px;
+          line-height: 1.9;
+          color: var(--muted);
+          margin-top: 14px;
+          position: relative;
+        }
+
+        /* Clue #1 text of the same color as the page background */
+        .camo {
+          color: #060a15; /* same as .blueprint background */
+          background: transparent;
+        }
+
+        /* Clue #2 ultra-low opacity text */
+        .faded {
+          opacity: 0.04;
+          color: var(--ink);
+        }
+
+        /* Clue #3 a pseudo-element carries the final part of the token */
+        .sealed::after {
+          content: "CIPHER";
+          color: rgba(76, 240, 199, 0.04); /* almost invisible */
+          margin-left: 6px;
+          letter-spacing: 2px;
+        }
+
+        .footprint {
+          display: inline-block;
+          margin-right: 8px;
+          color: var(--accent-2);
+        }
+
+        :root[data-theme="pink"] .blueprint { background: #1a0815; border-color: #4a1845; }
+        :root[data-theme="pink"] .camo { color: #1a0815; }
+        :root[data-theme="pink"] .sealed::after { color: rgba(0, 255, 209, 0.04); }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 03</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level2.html">← Case 02</a>
+            <a href="level4.html">Case 04 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 03 SEEING THROUGH THE VEIL</span>
+        The note is in front of you.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            You find Dr. Veyra's blueprint pinned to the wall. It looks mostly empty just
+            a few faint marks. But the stylesheet has been tampered with. Some text has been
+            given <em>the same color as the background</em>. Some has been dimmed to near-zero
+            opacity. Some is painted on by a <code>::after</code> pseudo-element.
+        </p>
+        <p class="story" style="margin-top:10px">
+            Inspect the blueprint. Read the full contents of each line in the Elements
+            panel. Assemble the token from the three fragments.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// evidence recovered blueprint</div>
+        <div class="blueprint">
+            <div><span class="footprint">&gt;</span> line 01 :: suspect notes  ...  <span class="camo">FRAGMENT_1 = ACCESS</span></div>
+            <div><span class="footprint">&gt;</span> line 02 :: site map      ...  <span class="faded">FRAGMENT_2 = _FADED</span></div>
+            <div><span class="footprint">&gt;</span> line 03 :: final seal    ...  FRAGMENT_3 = _<span class="sealed"></span></div>
+            <div style="margin-top:10px; color: var(--muted)">&gt; assemble: FRAGMENT_1 + FRAGMENT_2 + FRAGMENT_3</div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log enter full token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_FADED_CIPHER', levelNum: 3 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> try highlighting the blueprint with your mouse — or
+            inspect each line. Line 3's fragment lives in a CSS <code>::after</code> rule.
+        </div>
+        <div class="next" id="next">
+            > veil lifted. cipher in hand:
+            <a href="level4.html">Case 04 The Console Cipher →</a>
+        </div>
+    </div>
+
+    <footer>case 03 of 15 // CSS can hide; CSS can be read</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>
