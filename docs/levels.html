@@ -1,0 +1,276 @@
+<!-- Author: Sergio Pech
+    SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Level Select The Browser Detective</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+
+    <style>
+        .ls-head{
+          display:flex; align-items:baseline; justify-content:space-between;
+          flex-wrap:wrap; gap:12px;
+        }
+        .ls-head h2{
+          margin:0;
+          font-size: 32px; letter-spacing:.12em; text-transform:uppercase;
+          color: rgba(230,240,255,.95);
+          text-shadow: 0 0 26px rgba(58,160,255,.12);
+        }
+        :root[data-theme="pink"] .ls-head h2{ color: var(--text); }
+
+        .ls-sub{
+          margin:10px 0 6px; max-width: 740px;
+          color: rgba(159,177,217,.92);
+          line-height:1.7; font-size:15px;
+        }
+        :root[data-theme="pink"] .ls-sub{ color: var(--muted-c); }
+
+        .progress-bar{
+          margin-top: 14px;
+          height: 6px; border-radius: 999px;
+          background: rgba(255,255,255,.06);
+          overflow: hidden;
+          border: 1px solid rgba(120,170,255,.18);
+          max-width: 520px;
+        }
+        .progress-bar .fill{
+          height:100%;
+          width:0%;
+          background: linear-gradient(90deg, var(--cyan), var(--cyan2));
+          box-shadow: 0 0 12px rgba(55,231,255,.5);
+          transition: width .4s ease;
+        }
+        .progress-label{
+          margin-top:6px;
+          font-family: var(--mono); font-size:12px;
+          color: rgba(159,177,217,.75); letter-spacing:.08em;
+        }
+    </style>
+</head>
+
+<body class="cyber">
+<div class="particles" aria-hidden="true"></div>
+
+<main class="wrap">
+    <section class="window" role="region" aria-label="Level Select">
+
+        <div class="chrome">
+            <div class="dots" aria-hidden="true">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="tab" aria-hidden="true">
+                <span class="lock"></span>
+                <span>The Hidden Web</span>
+            </div>
+            <div class="addr" aria-hidden="true">
+                <span>https://40735258-debug.github.io/Browser-Detective.github.io/levels.html</span>
+            </div>
+            <div class="icons" aria-hidden="true">
+                <div class="icon"></div><div class="icon"></div><div class="icon"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <aside class="devtools" aria-label="Navigation Panel">
+                <nav class="dev-top" aria-label="Main Navigation">
+                    <a class="dev-pill" href="index.html">Home</a>
+                    <a class="dev-pill" href="how-to.html">How To Play</a>
+                    <a class="dev-pill" href="storyline.html">Storyline</a>
+                    <a class="dev-pill active" href="levels.html">Level Select</a>
+                    <a class="dev-pill" href="leaderboard.html">Leaderboard</a>
+                    <a class="dev-pill" href="settings.html">Settings</a>
+                </nav>
+
+                <div class="codebox" aria-label="Progress inspection">
+<pre style="margin:0;white-space:pre-wrap">
+<span class="cm">// progress.js</span>
+<span class="kw">const</span> <span class="hl">completed</span> = <span class="tag">localStorage</span>.getItem(<span class="hl">"bd.progress"</span>);
+<span class="kw">const</span> <span class="hl">unlocked</span> = (n) =&gt; n === <span class="hl">1</span> || completed.includes(n - <span class="hl">1</span>);
+
+<span class="cm">// Level 1 is always clickable. Each subsequent
+// level unlocks only after the previous is cleared.</span>
+</pre>
+                </div>
+
+                <div class="dev-bottom">
+                    <div class="mini">
+                        <h4>Rules</h4>
+                        <div class="line"><span class="cm">Level 1:</span> always unlocked</div>
+                        <div class="line"><span class="cm">Level N:</span> unlock when N 1 is complete</div>
+                        <div class="line"><span class="cm">Goal:</span> solve all 15 cases</div>
+                    </div>
+
+                    <div class="mini">
+                        <h4>Status</h4>
+                        <div class="line"><span class="cm">Completed:</span> <span class="hl" id="stat-done">0</span> / 15</div>
+                        <div class="line"><span class="cm">Current:</span> <span class="hl" id="stat-current">Case 1</span></div>
+                        <div class="line"><span class="cm">Next:</span> <span class="hl" id="stat-next">—</span></div>
+                    </div>
+
+                    <div class="mini console">
+                        <h4>Console</h4>
+                        <div class="line"><span class="prompt-c">&gt;</span> DetectiveProgress.all()</div>
+                        <div class="line"><span class="hint-c">Output:</span> <span id="stat-array">[]</span></div>
+                        <div class="line"><span class="prompt-c">&gt;</span> unlock_next_on_complete</div>
+                        <div class="line"><span class="hint-c">Status:</span> active</div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="page" aria-label="Level Select">
+                <div class="brand">
+                    <div class="logo" aria-hidden="true"></div>
+                    <div class="titleblock">
+                        <h1><span>Level Select</span></h1>
+                        <p>Choose your case</p>
+                    </div>
+                </div>
+
+                <div class="ls-head" style="margin-top:22px">
+                    <h2>Investigation Hub</h2>
+                </div>
+                <p class="ls-sub">
+                    Each case is a single webpage hiding a token. Solve it, then the next case unlocks. Your
+                    progress is saved in the browser, so you can come back and pick up where you left off.
+                </p>
+
+                <div class="progress-bar" aria-label="Overall progress">
+                    <div class="fill" id="progressFill"></div>
+                </div>
+                <div class="progress-label" id="progressLabel">0 OF 15 CASES CLOSED</div>
+
+                <div class="level-grid" id="levelGrid">
+                    <!--Js injection for card levels-->
+                </div>
+
+            </section>
+        </div>
+    </section>
+</main>
+
+<script>
+
+    const LEVELS = [
+      { num: 1, title: "First Impressions",    tag: "Beginner",
+        desc: "Dr. Veyra's office looks empty. But source code is never empty  check the margins." },
+      { num: 2, title: "The Invisible Witness", tag: "Beginner+",
+        desc: "Someone is here. Nobody is here. The stylesheet told them to disappear." },
+      { num: 3, title: "Seeing Through the Veil", tag: "Intermediate",
+        desc: "The note is right in front of you. Your eyes just can't pick it up." },
+      { num: 4, title: "The Console Cipher",     tag: "Advanced",
+        desc: "The vault is sealed by a function call. You'll need to execute code to open it." },
+      { num: 5, title: "The First Vault",        tag: "Synthesis",
+        desc: "Four fragments, one vault. What you find inside isn't the end  it's the floor." },
+      { num: 6, title: "The Encoded Transmission", tag: "Advanced+",
+        desc: "A voice on a dead frequency. One line carries the packet; the rest is noise." },
+      { num: 7, title: "The Reflection",         tag: "Advanced+",
+        desc: "A mirror drive recorded the truth  it just recorded it the wrong way round." },
+      { num: 8, title: "The Letterhead",         tag: "Expert",
+        desc: "The body of the page is a distraction. Some things are stamped before the title." },
+      { num: 9, title: "The Event",              tag: "Expert",
+        desc: "The handle opens on contact. Its instructions live in its own pocket, not on the page." },
+      { num:10, title: "The Keystone",           tag: "Expert",
+        desc: "The last word was never typed. The browser composed it for you during render." },
+      { num:11, title: "The Stash",              tag: "Expert",
+        desc: "The token isn't in the markup, the styles, or the console. It's in the browser's own memory." },
+      { num:12, title: "The Variable",           tag: "Expert+",
+        desc: "The stylesheet holds more than colours. A custom property carries the secret." },
+      { num:13, title: "The Nested Document",    tag: "Expert+",
+        desc: "A page inside a page. The iframe has its own DOM, its own rules, and its own hidden text." },
+      { num:14, title: "The Vector",             tag: "Master",
+        desc: "Drawn by math, not pixels. Every shape in the SVG is a DOM node you can inspect." },
+      { num:15, title: "The Deep Trace",         tag: "Final",
+        desc: "Five fragments, five techniques. Assemble the passphrase and close the investigation." },
+    ];
+
+    const LOCK_SVG = `
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <rect x="4" y="10" width="16" height="11" rx="2"/>
+        <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+      </svg>`;
+
+    function render(){
+      const P = window.DetectiveProgress;
+      const grid = document.getElementById("levelGrid");
+      grid.innerHTML = "";
+
+      LEVELS.forEach(L => {
+        const unlocked = P.isUnlocked(L.num);
+        const completed = P.isComplete(L.num);
+
+        //Badge Determination
+        let badgeText = "LOCKED", badgeClass = "locked";
+        if (completed){ badgeText = "CLEARED"; badgeClass = ""; }
+        else if (unlocked){ badgeText = "OPEN"; badgeClass = "current"; }
+
+        const el = document.createElement(unlocked ? "a" : "div");
+        el.className = "level-card" + (unlocked ? "" : " locked");
+        if (unlocked) el.href = "level" + L.num + ".html";
+        const caseNum = String(L.num).padStart(2, "0");
+        el.setAttribute("aria-label",
+          "Case " + caseNum + " — " + L.title + " (" + badgeText + ")");
+
+        el.innerHTML = `
+          <span class="badge ${badgeClass}">${badgeText}</span>
+          <div class="lvl-num">Case ${caseNum} · ${L.tag}</div>
+          <h3>${L.title}</h3>
+          <p>${L.desc}</p>
+          ${unlocked ? "" : LOCK_SVG}
+        `;
+        grid.appendChild(el);
+      });
+
+      //Statistics
+      const done = P.all();
+      document.getElementById("stat-done").textContent = done.length;
+      document.getElementById("stat-array").textContent =
+        "[" + done.join(", ") + "]";
+
+      //Current = Lowest unlocked but not completed
+      let current = null;
+      for (let i = 0; i < LEVELS.length; i++){
+        if (P.isUnlocked(LEVELS[i].num) && !P.isComplete(LEVELS[i].num)){
+          current = LEVELS[i]; break;
+        }
+      }
+      document.getElementById("stat-current").textContent =
+        current ? ("Case " + String(current.num).padStart(2,"0")) : "All cleared";
+
+      //Next locked
+      let next = null;
+      for (let i = 0; i < LEVELS.length; i++){
+        if (!P.isUnlocked(LEVELS[i].num)){
+          next = LEVELS[i]; break;
+        }
+      }
+      document.getElementById("stat-next").textContent =
+        next ? ("Case " + String(next.num).padStart(2,"0")) : "—";
+
+      //Progression Bar
+      const pct = (done.length / LEVELS.length) * 100;
+      document.getElementById("progressFill").style.width = pct + "%";
+      document.getElementById("progressLabel").textContent =
+        done.length + " OF " + LEVELS.length + " CASES CLOSED";
+    }
+
+    document.addEventListener("DOMContentLoaded", render);
+
+    //Rendering of updated Colors
+    window.addEventListener("storage", function(e){
+      if (e.key && e.key.indexOf("bd.") === 0) render();
+    });
+</script>
+
+<script src="js/audio.js"></script>
+</body>
+</html>
