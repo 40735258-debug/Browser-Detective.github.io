@@ -1,0 +1,75 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 1  First Impressions</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 01</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level2.html">Case 02 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 1 FIRST IMPRESSIONS</span>
+        An empty office. Or is it?
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            Dr. Veyra's office has been wiped clean. On his desk lies a single business card
+            that reads only: <em>"Look at the margins."</em>
+        </p>
+        <p class="story" style="margin-top:10px">
+            The page you're looking at is blank on purpose. But source code is
+            <em>never</em> blank. Right-click anywhere on this page and choose
+            <code>Inspect</code> — or press <code>F12</code>. Read the HTML. You're looking for
+            a token formatted like <code>ACCESS_XXXX</code>.
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!--   DETECTIVE  if you are reading this, good. you found it.   -->
+    <!--   Dr. Veyra left this note for whoever came looking:         -->
+    <!--       access token:  ACCESS_MARGIN                           -->
+    <!--   enter it in the evidence log below. tell no one.           -->
+    <!-- ============================================================ -->
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log — enter token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_MARGIN', levelNum: 1 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> a <code>&lt;!-- comment --&gt;</code> is invisible on the
+            rendered page but fully visible in the source.
+        </div>
+        <div class="next" id="next">
+            > case closed. the trail leads on to
+            <a href="level2.html">Case 02 — The Invisible Witness →</a>
+        </div>
+    </div>
+
+    <footer>case 01 of 15 // keep your devtools open</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>
