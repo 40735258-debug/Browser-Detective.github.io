@@ -1,11 +1,12 @@
-<!-- Author: Sergio Pech  SET08801 -->
+<!-- Author: Sergio Pech
+     SET08801 -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Settings — The Browser Detective</title>
+    <title>Settings  The Browser Detective</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/progress.js"></script>
 
@@ -18,14 +19,14 @@
           color: rgba(230,240,255,.95);
           text-shadow: 0 0 22px rgba(58,160,255,.12);
         }
-        :root[data-theme="light"] .set-head h2{ color: var(--text); }
+        :root[data-theme="pink"] .set-head h2{ color: var(--text); }
         .set-head p{
           margin: 10px 0 0;
           color: rgba(159,177,217,.85);
           max-width: 620px;
           line-height: 1.7;
         }
-        :root[data-theme="light"] .set-head p{ color: var(--muted-c); }
+        :root[data-theme="pink"] .set-head p{ color: var(--muted-c); }
 
         .settings-list{ margin-top: 26px; max-width: 720px; }
 
@@ -65,7 +66,7 @@
                 <span>The Hidden Web</span>
             </div>
             <div class="addr" aria-hidden="true">
-                <span>https://40735258-debug.github.io/Browser-Detective.github.io/settings</span>
+                <span>https://40735258-debug.github.io/Browser-Detective.github.io/Settings</span>
             </div>
             <div class="icons" aria-hidden="true">
                 <div class="icon"></div><div class="icon"></div><div class="icon"></div>
@@ -98,7 +99,7 @@
                     <div class="mini">
                         <h4>Theme</h4>
                         <div class="line"><span class="cm">dark:</span> the default detective mood</div>
-                        <div class="line"><span class="cm">light:</span> daytime noir — softer contrast</div>
+                        <div class="line"><span class="cm">pink retro:</span> cyberpunk neon aesthetic — vivid contrast</div>
                     </div>
 
                     <div class="mini">
@@ -138,7 +139,7 @@
 
                 <div class="settings-list">
 
-                    <!-- Player -->
+                    <!--Player -->
                     <div class="setting-row">
                         <div class="label">
                             <div class="name">Detective
@@ -155,16 +156,16 @@
                             <div class="name">Theme
                                 <span class="status-pill" id="themePill">dark</span>
                             </div>
-                            <div class="desc">Switch between dark and light mode. Applies instantly, across every page.</div>
+                            <div class="desc">Switch between dark and pink retro cyberpunk mode. Applies instantly, across every page.</div>
                         </div>
                         <label style="display:inline-flex; align-items:center; gap:10px;">
                             <span style="font-family:var(--mono); font-size:12px; opacity:.75;">DARK</span>
-                            <input type="checkbox" class="toggle" id="themeToggle" aria-label="Toggle light mode">
-                            <span style="font-family:var(--mono); font-size:12px; opacity:.75;">LIGHT</span>
+                            <input type="checkbox" class="toggle" id="themeToggle" aria-label="Toggle pink mode">
+                            <span style="font-family:var(--mono); font-size:12px; opacity:.75;">PINK</span>
                         </label>
                     </div>
 
-                    <!-- Music Status-->
+                    <!--Music Toggle-->
                     <div class="setting-row">
                         <div class="label">
                             <div class="name">Music
@@ -179,7 +180,7 @@
                         </div>
                     </div>
 
-                    <!-- Music Volume -->
+                    <!--Music Volume -->
                     <div class="setting-row">
                         <div class="label">
                             <div class="name">Volume</div>
@@ -193,16 +194,16 @@
                         </div>
                     </div>
 
-                    <!-- Reset Progress -->
+                    <!--Reset Progress-->
                     <div class="setting-row">
                         <div class="label">
                             <div class="name">Progress</div>
-                            <div class="desc">Cleared <span id="progCount">0</span> of 10 cases. Reset re-locks every level and clears your current name — the leaderboard is kept intact.</div>
+                            <div class="desc">Cleared <span id="progCount">0</span> of 15 cases. Reset re-locks every level and clears your current name — the leaderboard is kept intact.</div>
                         </div>
                         <button class="danger-btn" id="resetBtn">Reset Progress</button>
                     </div>
 
-                    <!-- Leaderboard-->
+                    <!--Leaderboard-->
                     <div class="setting-row">
                         <div class="label">
                             <div class="name">Leaderboard
@@ -223,18 +224,19 @@
 <script>
     const P = window.DetectiveProgress;
 
+
     const themeToggle = document.getElementById("themeToggle");
     const themePill   = document.getElementById("themePill");
     const conTheme    = document.getElementById("con-theme");
 
     function syncTheme(){
       const t = P.getTheme();
-      themeToggle.checked = (t === "light");
+      themeToggle.checked = (t === "pink");
       themePill.textContent = t;
       conTheme.textContent = t;
     }
     themeToggle.addEventListener("change", () => {
-      P.setTheme(themeToggle.checked ? "light" : "dark");
+      P.setTheme(themeToggle.checked ? "pink" : "dark");
       syncTheme();
     });
 
@@ -252,13 +254,12 @@
       conAudio.textContent = String(on);
     }
     musicBtn.addEventListener("click", () => {
-      // window.DetectiveAudio may load after DOMContentLoaded
       if (!window.DetectiveAudio){ return; }
       const playing = window.DetectiveAudio.toggle();
       syncMusic(playing);
     });
 
-    // Volume
+    //Volume
     const volSlider = document.getElementById("volume");
     const volLabel  = document.getElementById("volLabel");
     function syncVol(){
@@ -273,7 +274,7 @@
       volLabel.textContent = Math.round(v * 100) + "%";
     });
 
-    // PLayer/Leaderboard
+    //Player-Leaderboard
     const playerBtn   = document.getElementById("playerBtn");
     const playerPill  = document.getElementById("playerPill");
     const playerDesc  = document.getElementById("playerDesc");
@@ -303,7 +304,7 @@
       P.promptForName({ onOK: syncPlayer });
     });
 
-    // Reset Progress
+    //Progression Level
     const resetBtn  = document.getElementById("resetBtn");
     const progCount = document.getElementById("progCount");
     function syncProgress(){
