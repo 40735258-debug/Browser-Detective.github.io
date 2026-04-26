@@ -1,0 +1,141 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 14 The Vector</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <style>
+        .svg-stage {
+          background: linear-gradient(180deg, rgba(255,209,102,0.03), rgba(255,209,102,0.01));
+          border: 1px dashed var(--warn);
+          border-radius: 14px;
+          padding: 28px 22px;
+          margin-top: 14px;
+          text-align: center;
+          overflow: hidden;
+        }
+        .svg-stage svg {
+          max-width: 100%;
+          height: auto;
+        }
+        .svg-caption {
+          font-family: var(--mono);
+          font-size: 12px;
+          color: var(--muted);
+          margin-top: 14px;
+        }
+
+        :root[data-theme="pink"] .svg-stage { background: linear-gradient(180deg, rgba(255,47,146,0.05), rgba(255,47,146,0.02)); border-color: #ff2f92; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 14</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level13.html">← Case 13</a>
+            <a href="level15.html">Case 15 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 14 THE VECTOR</span>
+        Drawn by math, not pixels.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            SVG — Scalable Vector Graphics is a language for drawing shapes and text using XML
+            markup, right inside the HTML. Unlike images, every element in an SVG is a DOM node
+            you can inspect, style, and manipulate.
+        </p>
+        <p class="story" style="margin-top:10px">
+            Veyra embedded the token in an SVG illustration on this page. The text is there in the
+            DOM, but it's been made invisible through SVG-specific tricks: <em>fill-opacity</em>,
+            <em>transform</em>, and layering. The Elements panel will show you what the canvas hides.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// the blueprint</div>
+        <div class="svg-stage">
+            <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vector blueprint">
+
+                <rect x="0" y="0" width="500" height="200" fill="#060a15" rx="8"/>
+                <circle cx="80" cy="100" r="45" fill="none" stroke="#1b2b4d" stroke-width="1"/>
+                <circle cx="80" cy="100" r="30" fill="none" stroke="#22314f" stroke-width="0.5"/>
+                <line x1="0" y1="100" x2="500" y2="100" stroke="#1b2b4d" stroke-width="0.5" stroke-dasharray="4,6"/>
+                <line x1="250" y1="0" x2="250" y2="200" stroke="#1b2b4d" stroke-width="0.5" stroke-dasharray="4,6"/>
+
+                <!--Decoy text -->
+                <text x="250" y="85" text-anchor="middle" fill="#22314f"
+                      font-family="monospace" font-size="11" letter-spacing="3">
+                    VECTOR BLUEPRINT · VEYRA LABS
+                </text>
+
+                <g stroke="#141e36" stroke-width="0.3">
+                    <line x1="50" y1="0" x2="50" y2="200"/>
+                    <line x1="150" y1="0" x2="150" y2="200"/>
+                    <line x1="350" y1="0" x2="350" y2="200"/>
+                    <line x1="450" y1="0" x2="450" y2="200"/>
+                    <line x1="0" y1="50" x2="500" y2="50"/>
+                    <line x1="0" y1="150" x2="500" y2="150"/>
+                </g>
+
+                <!--Token, invisible fill matching the background -->
+                <text x="250" y="125" text-anchor="middle"
+                      fill="#060a15" fill-opacity="0.01"
+                      font-family="monospace" font-size="16" letter-spacing="4"
+                      id="svg-token">ACCESS_VECTOR</text>
+
+
+                <rect x="180" y="108" width="140" height="30" fill="none" stroke="#1b2b4d"
+                      stroke-width="0.5" stroke-dasharray="2,4" rx="4"/>
+                <circle cx="420" cy="100" r="45" fill="none" stroke="#1b2b4d" stroke-width="1"/>
+                <circle cx="420" cy="100" r="30" fill="none" stroke="#22314f" stroke-width="0.5"/>
+
+                <!--Corner labels -->
+                <text x="10" y="16" fill="#1b2b4d" font-family="monospace" font-size="9">0,0</text>
+                <text x="460" y="16" fill="#1b2b4d" font-family="monospace" font-size="9">500,0</text>
+                <text x="10" y="194" fill="#1b2b4d" font-family="monospace" font-size="9">0,200</text>
+                <text x="450" y="194" fill="#1b2b4d" font-family="monospace" font-size="9">500,200</text>
+            </svg>
+            <div class="svg-caption">
+                &gt; scalable vector graphic · 500 × 200 · inline SVG element
+            </div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter the vector's hidden text</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_VECTOR', levelNum: 14 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> SVG elements are DOM nodes. inspect the &lt;svg&gt; and look for &lt;text&gt; elements. one of them has something the canvas doesn't show.
+        </div>
+        <div class="next" id="next">
+            > vector decoded. one case remains:
+            <a href="level15.html">Case 15 The Deep Trace →</a>
+        </div>
+    </div>
+
+    <footer>case 14 of 15 // every shape drawn in SVG is a node you can read</footer>
+</div>
+
+<script src="audio.js"></script>
+</body>
+</html>
