@@ -1,0 +1,132 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 13 The Nested Document</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <style>
+        .nest-box {
+          background: #060a15;
+          border: 1px solid #22314f;
+          border-radius: 10px;
+          padding: 20px;
+          margin-top: 14px;
+          text-align: center;
+        }
+        .nest-box iframe {
+          width: 100%;
+          max-width: 560px;
+          height: 120px;
+          border: 1px solid var(--line);
+          border-radius: 8px;
+          background: var(--bg-0);
+        }
+        .nest-label {
+          font-family: var(--mono);
+          font-size: 12px;
+          color: var(--muted);
+          margin-top: 12px;
+          letter-spacing: 1px;
+        }
+        .outer-note {
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--warn);
+          margin-top: 14px;
+          text-align: center;
+        }
+
+        :root[data-theme="pink"] .nest-box { background: #1a0815; border-color: #4a1845; }
+        :root[data-theme="pink"] .outer-note { color: #ff2f92; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 13</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level12.html">← Case 12</a>
+            <a href="level14.html">Case 14 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 13 THE NESTED DOCUMENT</span>
+        A page inside a page.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            An <em>iframe</em> is a document embedded inside another document. It has its own HTML,
+            its own DOM, its own rules. When you inspect the outer page, the iframe's content lives
+            in a separate tree.
+        </p>
+        <p class="story" style="margin-top:10px">
+            Veyra placed a small document inside this page using an iframe with inline source code.
+            The outer page shows you a window; the inner page holds the token. You'll need to
+            inspect the iframe's own document to read what's inside.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// the nested document</div>
+        <div class="nest-box">
+            <iframe
+                    id="veyraFrame"
+                    title="Nested evidence document"
+                    srcdoc='<!DOCTYPE html>
+<html>
+<head><style>
+  body { margin:0; padding:20px; font-family: monospace; background:#080c18; color:#2a3350; }
+  .sealed { font-size:14px; letter-spacing:2px; }
+  /* the token below is rendered in the same colour as the background */
+  .token { color: #080c18; user-select: all; }
+</style></head>
+<body>
+  <div class="sealed">
+    &gt; nested document active<br>
+    &gt; classification: <span class="token">ACCESS_NESTED</span><br>
+    &gt; end of transmission
+  </div>
+</body>
+</html>'
+            ></iframe>
+            <div class="nest-label">&gt; iframe srcdoc inline source</div>
+        </div>
+        <div class="outer-note">
+            // the outer page cannot show you what's inside. look at the inner document.
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log enter the nested token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_NESTED', levelNum: 13 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> inspect the iframe element, then drill into its #document. or right-click inside the iframe and "Inspect" the inner content. or select all text inside it.
+        </div>
+        <div class="next" id="next">
+            > inner document breached. next case:
+            <a href="level14.html">Case 14 The Vector →</a>
+        </div>
+    </div>
+
+    <footer>case 13 of 15 // some documents hide inside other documents</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>
