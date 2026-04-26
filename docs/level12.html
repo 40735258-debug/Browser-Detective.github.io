@@ -1,0 +1,133 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 12 — The Variable</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <style>
+        :root {
+          --veyra-token: "ACCESS_CUSTOM";
+        }
+
+        .vault-display {
+          background: linear-gradient(180deg, rgba(122,162,255,0.04), rgba(122,162,255,0.01));
+          border: 1px dashed var(--accent-2);
+          border-radius: 14px;
+          padding: 32px 22px;
+          margin-top: 14px;
+          text-align: center;
+        }
+        .vault-label {
+          font-family: var(--mono);
+          font-size: 12px;
+          color: var(--muted);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .vault-slot {
+          display: inline-block;
+          margin-top: 14px;
+          font-family: var(--mono);
+          font-size: 18px;
+          letter-spacing: 3px;
+          padding: 10px 18px;
+          border-radius: 8px;
+          border: 1px solid rgba(122,162,255,0.25);
+          color: var(--bg-0);
+          background: var(--bg-0);
+          position: relative;
+        }
+        .vault-slot::after {
+          content: var(--veyra-token);
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: transparent;
+        }
+        .vault-note {
+          font-family: var(--mono);
+          font-size: 12px;
+          color: var(--muted);
+          margin-top: 14px;
+          line-height: 1.7;
+        }
+
+        :root[data-theme="pink"] .vault-display { background: linear-gradient(180deg, rgba(255,47,146,0.05), rgba(255,47,146,0.02)); border-color: #ff69b4; }
+        :root[data-theme="pink"] .vault-slot { border-color: rgba(255,105,180,0.3); color: #1a0815; background: #1a0815; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 12</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level11.html">← Case 11</a>
+            <a href="level13.html">Case 13 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 12 THE VARIABLE</span>
+        The stylesheet holds more than colours.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            CSS isn't just about how things look. Modern stylesheets can define <em>custom
+            properties</em> variables that store arbitrary values. They're declared in the
+            stylesheet and read by the browser at render time.
+        </p>
+        <p class="story" style="margin-top:10px">
+            Veyra registered a custom property on this page. It doesn't control any visible style.
+            It just sits in the cascade, waiting to be read. You can find it in the computed styles
+            of the root element, or by reading the stylesheet rules directly.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// the vault</div>
+        <div class="vault-display">
+            <div class="vault-label">&gt; property registered value concealed</div>
+            <div class="vault-slot" id="vaultSlot">████████████████</div>
+            <div class="vault-note">
+                &gt; the slot above is painted with a CSS variable's value.<br>
+                &gt; the paint is invisible. the variable is not.
+            </div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter the variable's value</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_CUSTOM', levelNum: 12 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> Some values live in the :root in DevTools → look at the custom properties, use the console.log().
+        </div>
+        <div class="next" id="next">
+            > variable extracted. next case:
+            <a href="level13.html">Case 13 The Nested Document →</a>
+        </div>
+    </div>
+
+    <footer>case 12 of 15 // the cascade carries secrets the eye doesn't render</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>
