@@ -5,9 +5,9 @@
 
 *{ box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Dark Theme */
+
 :root{
-  /* Levels */
+
   --bg-0:#05070c;
   --bg-1:#0b1020;
   --bg-2:#121a2e;
@@ -18,7 +18,7 @@
   --danger:#ff6b81;
   --warn:#ffd166;
 
-  /* Navigation */
+  /*cyberpunk  */
   --bg0:#070b14;
   --bg1:#0a1022;
   --panel:#0c1326cc;
@@ -48,7 +48,7 @@
     linear-gradient(180deg, var(--bg1), var(--bg0));
 }
 
-/* Light Theme */
+/* ---------- LIGHT theme overrides ---------- */
 :root[data-theme="light"]{
   --bg-0:#f2f5fb;
   --bg-1:#e6ecf7;
@@ -96,7 +96,7 @@ html, body{
   transition: background .3s ease, color .3s ease;
 }
 
-
+/* Scanline overlay for level pages only */
 body:not(.cyber)::before{
   content:"";
   position:fixed; inset:0;
@@ -116,7 +116,6 @@ body:not(.cyber)::before{
   );
 }
 
-/* LEVEL LAYOUT*/
 body:not(.cyber) .wrap{
   max-width: 900px;
   margin: 0 auto;
@@ -338,7 +337,10 @@ footer{
 }
 .reveal{ animation: revealFade .4s ease both; }
 
-
+/* ============================================================
+   CYBER LAYOUT (browser-chrome / nav pages)
+   Applied when body has class "cyber".
+   ============================================================ */
 body.cyber{
   overflow:hidden;
   background: var(--cyber-bg);
@@ -776,7 +778,7 @@ body.cyber .brand{
 .objective b{ color: rgba(55,231,255,.92); }
 .objective span{ color: rgba(159,177,217,.92); }
 
-/* code animation MAIN PAGE(HOME) */
+/* code animation (home page) */
 .code-animation{
   margin-top: 26px;
   padding: 16px;
@@ -813,7 +815,9 @@ body.cyber .brand{
   100%{opacity:1}
 }
 
-/* Level Selection */
+/* ============================================================
+   LEVEL-SELECT CARDS (cyber page)
+   ============================================================ */
 .level-grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -912,7 +916,9 @@ body.cyber .brand{
   opacity:.85;
 }
 
-/*Storyline Chapters*/
+/* ============================================================
+   STORYLINE CHAPTERS (cyber page)
+   ============================================================ */
 .chapter{
   background: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.14));
   border: 1px solid rgba(120,170,255,.18);
@@ -958,7 +964,9 @@ body.cyber .brand{
 }
 .chapter .lock-note::before{ content:"[ classified ] "; color: rgba(255,47,146,.8); }
 
-/* SettingTab*/
+/* ============================================================
+   SETTINGS (cyber page)
+   ============================================================ */
 .setting-row{
   display:flex;
   align-items:center;
@@ -1057,9 +1065,11 @@ input[type="range"].slider{
   border-color: rgba(255,47,146,.7);
 }
 
-/* Leaderboard Tab
-  Leaderboard Table */
+/*
+   LEADERBOARD + NAME-ENTRY MODAL
+*/
 
+/* Leaderboard table (cyber page) */
 .lb-wrap{
   margin-top: 18px;
   border: 1px solid rgba(120,170,255,.18);
@@ -1217,7 +1227,9 @@ input[type="range"].slider{
 .bd-modal-dot.yellow{ background: #ffbd2e; }
 .bd-modal-dot.green { background: #27c93f; }
 
-
+/* Red dot upgraded to a close button with an X glyph. The X is dim
+   at rest and brightens on hover/focus so the traffic-light look
+   is preserved until the user interacts with it. */
 .bd-modal-dot.is-close{
   padding: 0;
   margin: 0;
@@ -1345,6 +1357,9 @@ input[type="range"].slider{
   color: rgba(230,240,255,.98);
 }
 
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 980px){
   .content{ grid-template-columns: 1fr; height: calc(100vh - 54px); }
   .devtools{ border-right:none; border-bottom: 1px solid rgba(120,170,255,.12); max-height:45vh; }
