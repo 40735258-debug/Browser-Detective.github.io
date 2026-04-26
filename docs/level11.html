@@ -1,0 +1,113 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 11 The Stash</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <style>
+        .terminal {
+          background: #060a15;
+          border: 1px solid #22314f;
+          border-radius: 10px;
+          padding: 20px;
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.9;
+          margin-top: 14px;
+        }
+        .terminal .prompt-line { color: var(--accent); }
+        .terminal .output-line { color: var(--accent-2); margin-left: 18px; }
+        .terminal .comment { color: #2a3350; font-style: italic; }
+        .terminal .warn-line { color: var(--warn); }
+
+        :root[data-theme="pink"] .terminal { background: #1a0815; border-color: #4a1845; }
+        :root[data-theme="pink"] .terminal .prompt-line { color: #00ffd1; }
+        :root[data-theme="pink"] .terminal .output-line { color: #ff69b4; }
+        :root[data-theme="pink"] .terminal .comment { color: #3d1640; }
+        :root[data-theme="pink"] .terminal .warn-line { color: #ffd166; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 11</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level10.html">← Case 10</a>
+            <a href="level12.html">Case 12 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 11 THE STASH</span>
+        Some things are saved where the page forgets to look.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            Veyra didn't just hide things in the page. He hid things in the <em>browser itself</em>.
+            There is a storage layer that JavaScript can write to and read from a shelf that
+            survives page reloads, tab closures, even browser restarts. It's called
+            <em>localStorage</em>.
+        </p>
+        <p class="story" style="margin-top:10px">
+            A script on this page has already stashed something. You won't find it in the HTML, the
+            CSS, or the console output. You'll find it in the browser's own memory.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// the drop</div>
+        <div class="terminal">
+            <div class="prompt-line">&gt; document.title</div>
+            <div class="output-line">"Case 11 The Stash"</div>
+            <div class="comment">// the page looks clean. too clean.</div>
+            <div class="prompt-line" style="margin-top:8px">&gt; document.body.innerHTML.includes("ACCESS_")</div>
+            <div class="output-line">false</div>
+            <div class="comment">// the token isn't in the markup.</div>
+            <div class="warn-line" style="margin-top:8px">// try looking where the browser keeps things between visits.</div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter the stashed token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_STASH', levelNum: 11 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> open DevTools → Application → Local Storage. or type localStorage in the console.
+        </div>
+        <div class="next" id="next">
+            > stash recovered. next case:
+            <a href="level12.html">Case 12 The Variable →</a>
+        </div>
+    </div>
+
+    <footer>case 11 of 15 // the browser remembers what the page forgot</footer>
+</div>
+
+<script src="js/audio.js"></script>
+<script>
+    //Token hidden in localStorage under an inconspicuous key.
+    //The player must inspect localStorage to find it.
+    (function(){
+      try {
+        localStorage.setItem("veyra.dead-drop", "ACCESS_STASH");
+      } catch(e){}
+    })();
+</script>
+</body>
+</html>
