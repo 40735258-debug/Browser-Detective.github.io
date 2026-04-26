@@ -9,6 +9,10 @@
     <title>Leaderboard — The Browser Detective</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/progress.js"></script>
+    <!--Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
 
     <style>
         .lb-head h2{
@@ -82,12 +86,10 @@
 
                 <div class="codebox" aria-label="Leaderboard store">
 <pre style="margin:0;white-space:pre-wrap">
-<span class="cm">// leaderboard store — survives Reset Progress</span>
-<span class="kw">const</span> <span class="hl">board</span> = JSON.parse(
-  <span class="tag">localStorage</span>.getItem(<span class="hl">"bd.leaderboard"</span>)
-);
+<span class="cm">// cloud leaderboard — Firebase Realtime DB</span>
+<span class="kw">const</span> <span class="hl">board</span> = <span class="tag">CloudLeaderboard</span>.fetch();
 
-<span class="cm">// each row:
+<span class="cm">// shared across all devices
 // { name, highestLevel, playTimeSec,
 //   completed, startedAt, finishedAt }</span>
 </pre>
@@ -210,9 +212,9 @@
       return "lb-rank";
     }
 
-    function render(){
+    /**Renders Rows, accepts an array of leaderboard row objects and draws them into the table. Used by both cloud and local fallback.*/
+    function renderRows(rows){
       var P = window.DetectiveProgress;
-      var rows = P.getLeaderboard();
       var currentId = P.getRunId();
       var body = document.getElementById("lb-body");
       var empty = document.getElementById("lb-empty");
@@ -241,7 +243,7 @@
         });
       }
 
-      // Sidebar statistics
+      //Sidebar statistics
       var cleared = 0, ongoing = 0, top = 0, fastest = null, names = {};
       rows.forEach(function(r){
         if (r.completed) cleared++;
@@ -256,8 +258,10 @@
       document.getElementById("m-top").textContent     = top > 0 ? (top + "/" + P.TOTAL_LEVELS) : "—";
       document.getElementById("m-fastest").textContent = fastest == null ? "—" : fmtTime(fastest);
       document.getElementById("m-players").textContent = Object.keys(names).length;
+    }
 
-
+    function renderToolbar(){
+      var P = window.DetectiveProgress;
       var whoLabel = document.getElementById("who-label");
       var cont = document.getElementById("btn-continue");
       if (P.hasPlayer()){
@@ -287,20 +291,51 @@
       }
     }
 
+    /**Full render, cloud-first with local fallback.
+     */
+    function render(){
+      renderToolbar();
+      if (window.CloudLeaderboard){
+        //One-time fetch to populate immediately
+        window.CloudLeaderboard.fetch().then(function(rows){
+          renderRows(rows);
+        }).catch(function(){
+          //Fallback to local if Firebase fails
+          renderRows(window.DetectiveProgress.getLeaderboard());
+        });
+      } else {
+        renderRows(window.DetectiveProgress.getLeaderboard());
+      }
+    }
+
     document.getElementById("btn-change").addEventListener("click", function(){
       window.DetectiveProgress.promptForName({
         onOK: function(){ render(); }
       });
     });
 
-    document.addEventListener("DOMContentLoaded", render);
+    document.addEventListener("DOMContentLoaded", function(){
+      render();
 
-    // Keep the play time column ticking while the page is open.
+
+      if (window.CloudLeaderboard){
+        window.CloudLeaderboard.listen(function(rows){
+          renderRows(rows);
+          renderToolbar();
+        });
+      }
+    });
+
+    //Keeps the play time column ticking while the page is open.
     setInterval(function(){
-      if (window.DetectiveProgress.hasPlayer()) render();
+      if (window.DetectiveProgress.hasPlayer()){
+        // Push updated play time to cloud so other viewers see it
+        window.DetectiveProgress.touchRun();
+        renderToolbar();
+      }
     }, 15000);
 
-    // Cross-tab updates
+    //Cross-tab updates (local)
     window.addEventListener("storage", function(e){
       if (e.key && e.key.indexOf("bd.") === 0) render();
     });
