@@ -59,7 +59,7 @@
     return Math.max(0, Math.floor((nowMs() - t) / 1000));
   }
 
-  // DetectiveProgress API
+  //DetectiveProgress API
   var DetectiveProgress = {
     TOTAL_LEVELS: TOTAL_LEVELS,
     KEYS: {
@@ -98,7 +98,7 @@
     },
     all: function () { return readCompleted(); },
 
-    //Reset Progress — clears the current run ONLY. Leaderboard rows are left untouched so every past attempt survives.
+    //Reset Progress clears the current run ONLY.
     reset: function () {
       for (var i = 0; i < RUN_KEYS.length; i++) safeDel(RUN_KEYS[i]);
     },
@@ -112,7 +112,7 @@
     getRunStart: function () { return safeGet(KEY_RUN_START, ""); },
     getPlayTimeSec: function () { return elapsedSec(this.getRunStart()); },
 
-    // Begin a new run. Creates a leaderboard row for this attempt
+    //Begins a new run. Creates a leaderboard row for this attempt
     startRun: function (rawName) {
       var name = (rawName == null ? "" : String(rawName)).trim();
       if (!name) name = "Anonymous";
@@ -129,7 +129,7 @@
       writeCompleted([]);
 
       var board = readBoard();
-      board.push({
+      var newEntry = {
         id: id,
         name: name,
         highestLevel: 0,
@@ -137,8 +137,14 @@
         completed: false,
         startedAt: startISO,
         finishedAt: null
-      });
+      };
+      board.push(newEntry);
       writeBoard(board);
+
+      //Sync to Firebase cloud leaderboard
+      if (window.CloudLeaderboard) {
+        window.CloudLeaderboard.pushRun(newEntry);
+      }
       return id;
     },
 
@@ -160,14 +166,19 @@
         if (!row.finishedAt) row.finishedAt = nowISO();
       }
       writeBoard(board);
+
+      //Sync updated row to Firebase cloud leaderboard
+      if (window.CloudLeaderboard) {
+        window.CloudLeaderboard.pushRun(row);
+      }
     },
 
     //Forces a sync even without a level completion
-
     touchRun: function () { this._syncRunEntry(0); },
 
     //Leaderboard
     getLeaderboard: function () {
+
       //Refresh the in-progress row's play time so the view is live.
       this.touchRun();
       var board = readBoard().slice();
@@ -176,14 +187,16 @@
         if (a.completed !== b.completed) return a.completed ? -1 : 1;
         if (b.highestLevel !== a.highestLevel) return b.highestLevel - a.highestLevel;
         var at = a.playTimeSec || 0, bt = b.playTimeSec || 0;
-        if (a.completed && b.completed) return at - bt;       // fastest win
-        return bt - at;                                        // longest investigation
+        if (a.completed && b.completed) return at - bt;       //fastest win
+        return bt - at;                                        //longest investigation
       });
       return board;
     },
-    clearLeaderboard: function () { writeBoard([]); },
+    clearLeaderboard: function () {
+      writeBoard([]);
+    },
 
-    // ---- theme ----
+    //Theme
     getTheme: function(){ return safeGet(KEY_THEME, "dark"); },
     setTheme: function(t){
       t = (t === "pink") ? "pink" : "dark";
@@ -216,8 +229,7 @@
   }
   applyTheme(DetectiveProgress.getTheme());
 
-  //Name Entry
-
+  //Player Name Entry
   function buildModal() {
     if (document.getElementById("bd-name-modal")) return;
 
@@ -311,7 +323,6 @@
   DetectiveProgress.promptForName = showNameModal;
   DetectiveProgress.hideNameModal = hideNameModal;
 
-  // If a player opens a level page without setting a name first, gatemthe page with the modal before any puzzle logic runs.
   function autoGate(){
     var path = (location.pathname || "").toLowerCase();
     var onLevelPage = /level\d+\.html$/.test(path);
