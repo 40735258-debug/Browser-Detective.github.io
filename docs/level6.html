@@ -1,0 +1,118 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 06 The Encoded Transmission</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+    <style>
+        .radio {
+          background: #060a15;
+          border: 1px solid #22314f;
+          border-radius: 10px;
+          padding: 20px;
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.9;
+          margin-top: 14px;
+        }
+        .radio .ch { color: var(--warn); }
+        .radio .static {
+          color: #2a3350;
+          letter-spacing: 2px;
+          user-select: none;
+        }
+        .radio .payload {
+          display: inline-block;
+          margin-top: 6px;
+          color: var(--accent-2);
+          letter-spacing: 0.5px;
+          word-break: break-all;
+        }
+
+        :root[data-theme="pink"] .radio { background: #1a0815; border-color: #4a1845; }
+        :root[data-theme="pink"] .radio .ch { color: #ff2f92; }
+        :root[data-theme="pink"] .radio .static { color: #3d1640; }
+        :root[data-theme="pink"] .radio .payload { color: #00ffd1; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 06</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level5.html">← Case 05</a>
+            <a href="level7.html">Case 07 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 06 THE ENCODED TRANSMISSION</span>
+        A voice on a dead frequency.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// intercept log</div>
+        <p class="story">
+            You pull a recording off one of Veyra's shortwave caches. Most of the signal is noise.
+            Tucked between the static, a single packet was sent clean, but it was scrambled for
+            broadcast. Every line below carries the same truth; only one of them has been translated.
+        </p>
+        <p class="story" style="margin-top:10px; color: var(--muted)">
+            Find the transmission. It's a string of letters and digits, ends in equal signs, and nothing
+            you can read by eye. Turn it back into plaintext.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// raw feed</div>
+        <div class="radio">
+            <div><span class="ch">[ch-03]</span> <span class="static">▓▒░█▓▒░█▒░▓█▒░▓▓▒░</span></div>
+            <div><span class="ch">[ch-07]</span> <span class="static">░▒▓█░░▒▓█▓▒▒░█▓▓░</span></div>
+            <div data-transmission="QUNDRVNTX1NJR05BTA==">
+                <span class="ch">[ch-11]</span>
+                <span class="static">▓▒░</span>
+                <span class="payload">&lt; encoded packet, check my attributes &gt;</span>
+                <span class="static">░▒▓</span>
+            </div>
+            <div><span class="ch">[ch-14]</span> <span class="static">█▓░▒▓█░▒░▓█▓▒▓░░▒</span></div>
+            <div><span class="ch">[ch-19]</span> <span class="static">▒░▓▒█▓░░█▒▓░▓▒░▓█</span></div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter translated token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_SIGNAL', levelNum: 6 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> radio operators never send plaintext over an open band.
+        </div>
+        <div class="next" id="next">
+            > signal decoded. next intercept:
+            <a href="level7.html">Case 07 The Reflection →</a>
+        </div>
+    </div>
+
+    <footer>case 06 of 15 // the browser speaks more than one language</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>

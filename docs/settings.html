@@ -1,0 +1,415 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings  The Browser Detective</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!-- Firebase SDK (compat build for vanilla JS) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+
+    <style>
+        .set-head h2{
+          margin: 0;
+          font-size: 36px;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+          color: rgba(230,240,255,.95);
+          text-shadow: 0 0 22px rgba(58,160,255,.12);
+        }
+        :root[data-theme="pink"] .set-head h2{ color: var(--text); }
+        .set-head p{
+          margin: 10px 0 0;
+          color: rgba(159,177,217,.85);
+          max-width: 620px;
+          line-height: 1.7;
+        }
+        :root[data-theme="pink"] .set-head p{ color: var(--muted-c); }
+
+        .settings-list{ margin-top: 26px; max-width: 720px; }
+
+        .status-pill{
+          font-family: var(--mono);
+          font-size: 12px;
+          letter-spacing: .08em;
+          padding: 4px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(120,170,255,.25);
+          color: rgba(159,177,217,.85);
+          background: rgba(255,255,255,.05);
+          margin-left: 10px;
+        }
+        .status-pill.on{
+          color: rgba(55,231,255,.95);
+          border-color: rgba(55,231,255,.5);
+          background: rgba(55,231,255,.08);
+        }
+    </style>
+</head>
+
+<body class="cyber">
+<div class="particles" aria-hidden="true"></div>
+
+<main class="wrap">
+    <section class="window" role="region" aria-label="Settings">
+
+        <div class="chrome">
+            <div class="dots" aria-hidden="true">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="tab" aria-hidden="true">
+                <span class="lock"></span>
+                <span>The Hidden Web</span>
+            </div>
+            <div class="addr" aria-hidden="true">
+                <span>https://40735258-debug.github.io/Browser-Detective.github.io/Settings.html</span>
+            </div>
+            <div class="icons" aria-hidden="true">
+                <div class="icon"></div><div class="icon"></div><div class="icon"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <aside class="devtools" aria-label="Navigation Panel">
+                <nav class="dev-top" aria-label="Main Navigation">
+                    <a class="dev-pill" href="index.html">Home</a>
+                    <a class="dev-pill" href="how-to.html">How To Play</a>
+                    <a class="dev-pill" href="storyline.html">Storyline</a>
+                    <a class="dev-pill" href="levels.html">Level Select</a>
+                    <a class="dev-pill" href="leaderboard.html">Leaderboard</a>
+                    <a class="dev-pill active" href="settings.html">Settings</a>
+                </nav>
+
+                <div class="codebox" aria-label="Preference inspection">
+<pre style="margin:0;white-space:pre-wrap">
+<span class="cm">// persisted preferences</span>
+<span class="tag">localStorage</span>.getItem(<span class="hl">"bd.theme"</span>);      <span class="cm">// "dark" | "light"</span>
+<span class="tag">localStorage</span>.getItem(<span class="hl">"bd.music.on"</span>);   <span class="cm">// "1"   | "0"</span>
+<span class="tag">localStorage</span>.getItem(<span class="hl">"bd.music.vol"</span>);  <span class="cm">// 0.00 – 1.00</span>
+<span class="tag">localStorage</span>.getItem(<span class="hl">"bd.progress"</span>);   <span class="cm">// [1,2,3,...]</span>
+</pre>
+                </div>
+
+                <div class="dev-bottom">
+                    <div class="mini">
+                        <h4>Theme</h4>
+                        <div class="line"><span class="cm">dark:</span> the default detective mood</div>
+                        <div class="line"><span class="cm">pink retro:</span> cyberpunk neon aesthetic — vivid contrast</div>
+                    </div>
+
+                    <div class="mini">
+                        <h4>Audio</h4>
+                        <div class="line"><span class="cm">engine:</span> Web Audio synth</div>
+                        <div class="line"><span class="cm">file:</span> no mp3 required</div>
+                        <div class="line"><span class="cm">tip:</span> click page to kick off audio</div>
+                    </div>
+
+                    <div class="mini console">
+                        <h4>Console</h4>
+                        <div class="line"><span class="prompt-c">&gt;</span> DetectiveAudio.toggle()</div>
+                        <div class="line"><span class="hint-c">returns:</span> <span id="con-audio">false</span></div>
+                        <div class="line"><span class="prompt-c">&gt;</span> DetectiveProgress.getTheme()</div>
+                        <div class="line"><span class="hint-c">returns:</span> "<span id="con-theme">dark</span>"</div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="page" aria-label="Settings">
+                <div class="brand">
+                    <div class="logo" aria-hidden="true"></div>
+                    <div class="titleblock">
+                        <h1><span>Settings</span></h1>
+                        <p>Preferences · Audio · Progress</p>
+                    </div>
+                </div>
+
+                <div class="set-head" style="margin-top:22px">
+                    <h2>Console Preferences</h2>
+                    <p>
+                        Toggle between dark and light noir, play or pause the ambient soundtrack, and reset
+                        your progress if you want to start the investigation from scratch. Everything here
+                        is saved to your browser; no account needed.
+                    </p>
+                </div>
+
+                <div class="settings-list">
+
+                    <!--Player-->
+                    <div class="setting-row">
+                        <div class="label">
+                            <div class="name">Detective
+                                <span class="status-pill" id="playerPill">none</span>
+                            </div>
+                            <div class="desc" id="playerDesc">No investigator set. Your name goes on the leaderboard when you start a run.</div>
+                        </div>
+                        <button class="btn" id="playerBtn" style="padding:10px 22px; font-size:13px;">Set Name</button>
+                    </div>
+
+                    <!--Theme-->
+                    <div class="setting-row">
+                        <div class="label">
+                            <div class="name">Theme
+                                <span class="status-pill" id="themePill">dark</span>
+                            </div>
+                            <div class="desc">Switch between dark and pink retro cyberpunk mode. Applies instantly, across every page.</div>
+                        </div>
+                        <label style="display:inline-flex; align-items:center; gap:10px;">
+                            <span style="font-family:var(--mono); font-size:12px; opacity:.75;">DARK</span>
+                            <input type="checkbox" class="toggle" id="themeToggle" aria-label="Toggle pink mode">
+                            <span style="font-family:var(--mono); font-size:12px; opacity:.75;">PINK</span>
+                        </label>
+                    </div>
+
+                    <!--Music Toggle-->
+                    <div class="setting-row">
+                        <div class="label">
+                            <div class="name">Music
+                                <span class="status-pill" id="musicPill">off</span>
+                            </div>
+                            <div class="desc">Ambient detective-noir soundtrack, synthesised live. Play or pause any time.</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <button class="btn" id="musicBtn" style="padding:10px 22px; font-size:13px;">
+                                <span id="musicBtnLabel">▶ Play Music</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--Music Volume -->
+                    <div class="setting-row">
+                        <div class="label">
+                            <div class="name">Volume</div>
+                            <div class="desc">How loud the soundtrack plays. Takes effect in real time.</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <input type="range" class="slider" id="volume"
+                                   min="0" max="1" step="0.01" value="0.25"
+                                   aria-label="Music volume">
+                            <span style="font-family:var(--mono); font-size:12px; min-width:38px; text-align:right;" id="volLabel">25%</span>
+                        </div>
+                    </div>
+
+                    <!--Reset Progress-->
+                    <div class="setting-row">
+                        <div class="label">
+                            <div class="name">Progress</div>
+                            <div class="desc">Cleared <span id="progCount">0</span> of 15 cases. Reset re-locks every level and clears your current name — the leaderboard is kept intact.</div>
+                        </div>
+                        <button class="danger-btn" id="resetBtn">Reset Progress</button>
+                    </div>
+
+                    <!--Local Leaderboard-->
+                    <div class="setting-row">
+                        <div class="label">
+                            <div class="name">Local Leaderboard
+                                <span class="status-pill" id="boardPill">0 rows</span>
+                            </div>
+                            <div class="desc">Clears only the leaderboard entries stored on <strong>this device</strong>. Other players on other devices are not affected. Your current progress is kept.</div>
+                        </div>
+                        <button class="danger-btn" id="clearBoardBtn">Clear Device Board</button>
+                    </div>
+
+                    <!--Master Reset (Firebase version)-->
+                    <div class="setting-row">
+                        <div class="label">
+                            <div class="name">Master Reset
+                                <span class="status-pill" style="color:#ef4444;border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.08);">global</span>
+                            </div>
+                            <div class="desc">Wipes the <strong>entire cloud leaderboard</strong> for every player on every device. This cannot be undone. Use only when you want a completely fresh start for all investigators.</div>
+                        </div>
+                        <button class="danger-btn" id="masterResetBtn" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#ef4444;">Master Reset</button>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    </section>
+</main>
+
+<script>
+    const P = window.DetectiveProgress;
+
+
+    const themeToggle = document.getElementById("themeToggle");
+    const themePill   = document.getElementById("themePill");
+    const conTheme    = document.getElementById("con-theme");
+
+    function syncTheme(){
+      const t = P.getTheme();
+      themeToggle.checked = (t === "pink");
+      themePill.textContent = t;
+      conTheme.textContent = t;
+    }
+    themeToggle.addEventListener("change", () => {
+      P.setTheme(themeToggle.checked ? "pink" : "dark");
+      syncTheme();
+    });
+
+    //Music
+    const musicBtn      = document.getElementById("musicBtn");
+    const musicBtnLabel = document.getElementById("musicBtnLabel");
+    const musicPill     = document.getElementById("musicPill");
+    const conAudio      = document.getElementById("con-audio");
+
+    function syncMusic(isOn){
+      const on = typeof isOn === "boolean" ? isOn : P.getMusicOn();
+      musicBtnLabel.textContent = on ? "⏸ Pause Music" : "▶ Play Music";
+      musicPill.textContent = on ? "playing" : "off";
+      musicPill.classList.toggle("on", on);
+      conAudio.textContent = String(on);
+    }
+    musicBtn.addEventListener("click", () => {
+      if (!window.DetectiveAudio){ return; }
+      const playing = window.DetectiveAudio.toggle();
+      syncMusic(playing);
+    });
+
+    //Volume
+    const volSlider = document.getElementById("volume");
+    const volLabel  = document.getElementById("volLabel");
+    function syncVol(){
+      const v = P.getMusicVol();
+      volSlider.value = v;
+      volLabel.textContent = Math.round(v * 100) + "%";
+    }
+    volSlider.addEventListener("input", () => {
+      const v = parseFloat(volSlider.value);
+      if (window.DetectiveAudio) window.DetectiveAudio.setVolume(v);
+      else P.setMusicVol(v);
+      volLabel.textContent = Math.round(v * 100) + "%";
+    });
+
+    //Player-Leaderboard
+    const playerBtn   = document.getElementById("playerBtn");
+    const playerPill  = document.getElementById("playerPill");
+    const playerDesc  = document.getElementById("playerDesc");
+    const boardPill   = document.getElementById("boardPill");
+    const clearBoardBtn = document.getElementById("clearBoardBtn");
+
+    function syncPlayer(){
+      const name = P.getPlayer();
+      if (name){
+        playerPill.textContent = name;
+        playerPill.classList.add("on");
+        playerDesc.textContent =
+          "Current run recorded under \"" + name + "\". Set Name starts a new run under a different alias (and a new leaderboard row).";
+        playerBtn.textContent = "Change Name";
+      } else {
+        playerPill.textContent = "none";
+        playerPill.classList.remove("on");
+        playerDesc.textContent =
+          "No investigator set. Your name goes on the leaderboard when you start a run.";
+        playerBtn.textContent = "Set Name";
+      }
+      const board = (typeof P.getLeaderboard === "function") ? P.getLeaderboard() : [];
+      boardPill.textContent = board.length + (board.length === 1 ? " row" : " rows");
+    }
+
+    playerBtn.addEventListener("click", () => {
+      P.promptForName({ onOK: syncPlayer });
+    });
+
+    //Progression Level
+    const resetBtn  = document.getElementById("resetBtn");
+    const progCount = document.getElementById("progCount");
+    function syncProgress(){
+      progCount.textContent = P.all().length;
+    }
+    resetBtn.addEventListener("click", () => {
+      if (!confirm(
+        "Reset your current run?\n\n" +
+        "• Every level except Case 01 will be relocked.\n" +
+        "• Your detective name will be cleared.\n" +
+        "• The leaderboard stays intact — past runs are kept."
+      )) return;
+      P.reset();
+      syncProgress();
+      syncPlayer();
+      resetBtn.textContent = "Cleared ✓";
+      setTimeout(() => { resetBtn.textContent = "Reset Progress"; }, 1600);
+    });
+
+    //Clear Localstorage Leaderboard
+    clearBoardBtn.addEventListener("click", () => {
+      const board = (typeof P.getLeaderboard === "function") ? P.getLeaderboard() : [];
+      if (!board.length){
+        clearBoardBtn.textContent = "Already Empty";
+        setTimeout(() => { clearBoardBtn.textContent = "Clear Device Board"; }, 1400);
+        return;
+      }
+      if (!confirm(
+        "Clear leaderboard on THIS device only?\n\n" +
+        "This wipes all " + board.length + " local runs stored in this browser. " +
+        "The cloud leaderboard (visible to all players) is NOT affected.\n" +
+        "Your current progress is NOT cleared — use Reset Progress for that."
+      )) return;
+
+      //Only clear localStorage, leave Firebase version intact
+      try { localStorage.removeItem("bd.leaderboard"); } catch(e){}
+      syncPlayer();
+      clearBoardBtn.textContent = "Cleared ✓";
+      setTimeout(() => { clearBoardBtn.textContent = "Clear Device Board"; }, 1600);
+    });
+
+    //Master Reset wipes the entire Firebase cloud leaderboard with (password protected)
+    const masterResetBtn = document.getElementById("masterResetBtn");
+    const MASTER_PASS = "Master_Detective_Creator";
+
+    masterResetBtn.addEventListener("click", () => {
+      const entered = prompt(
+        "⚠ MASTER RESET\n\n" +
+        "This will permanently delete the ENTIRE cloud leaderboard " +
+        "for ALL players on ALL devices.\n\n" +
+        "Enter the master password to proceed:"
+      );
+      if (entered === null) return; //cancelled
+      if (entered !== MASTER_PASS) {
+        masterResetBtn.textContent = "Wrong Password ✗";
+        masterResetBtn.style.color = "#fff";
+        masterResetBtn.style.background = "rgba(239,68,68,.5)";
+        setTimeout(() => {
+          masterResetBtn.textContent = "Master Reset";
+          masterResetBtn.style.color = "";
+          masterResetBtn.style.background = "";
+        }, 2000);
+        return;
+      }
+
+      //Correct password clears both cloud and local
+      if (window.CloudLeaderboard) {
+        window.CloudLeaderboard.clear();
+      }
+      P.clearLeaderboard();
+      P.reset();
+      syncProgress();
+      syncPlayer();
+      masterResetBtn.textContent = "Reset Complete ✓";
+      masterResetBtn.style.color = "rgba(55,231,255,.95)";
+      setTimeout(() => {
+        masterResetBtn.textContent = "Master Reset";
+        masterResetBtn.style.color = "";
+      }, 2000);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      syncTheme();
+      syncMusic();
+      syncVol();
+      syncProgress();
+      syncPlayer();
+    });
+</script>
+
+<script src="js/audio.js"></script>
+</body>
+</html>

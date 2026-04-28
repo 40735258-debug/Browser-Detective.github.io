@@ -1,0 +1,110 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="x-archive-key" content="ACCESS_ARCHIVE" />
+    <meta name="author" content="Otis Veyra" />
+    <meta name="description" content="Veyra Systems case index. Do not redistribute." />
+    <title>Case 08 The Letterhead</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+    <style>
+        .archive {
+          background: #060a15;
+          border: 1px solid #22314f;
+          border-radius: 10px;
+          padding: 22px 24px;
+          font-family: var(--mono);
+          font-size: 13.5px;
+          line-height: 1.9;
+          color: var(--muted);
+          margin-top: 14px;
+        }
+        .archive .stamp {
+          display:inline-block;
+          margin-bottom: 10px;
+          padding: 4px 10px;
+          border: 1px dashed var(--accent-2);
+          color: var(--accent-2);
+          letter-spacing: 3px;
+          font-size: 11px;
+        }
+        .archive b { color: var(--ink); }
+
+        :root[data-theme="pink"] .archive { background: #1a0815; border-color: #4a1845; }
+        :root[data-theme="pink"] .archive .stamp { border-color: #00ffd1; color: #00ffd1; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 08</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level7.html">← Case 07</a>
+            <a href="level9.html">Case 09 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 08 THE LETTERHEAD</span>
+        The body of the page is a distraction.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// dossier</div>
+        <div class="archive">
+            <div class="stamp">VEYRA SYSTEMS · INTERNAL</div>
+            <p>
+                Dr. Veyra ran his archive like a librarian of the old school. Every file that ever
+                touched his system was stamped before the first page even began a marker clerks call
+                a <b>letterhead</b>. Records in the body can be forged, rewritten, or contradicted by later
+                revisions. The letterhead is set at ingest and rarely looked at again, which is precisely
+                why it was trusted.
+            </p>
+            <p style="margin-top:10px">
+                This dossier is a copy. The body tells you nothing. The letterhead tells you everything
+                if you know to look at it, and most investigators don't. They go straight for the text.
+            </p>
+            <p style="margin-top:10px;color:var(--muted)">
+                &gt; the access key for this archive was stamped into this document's letterhead at ingest.
+                &gt; its name begins with <code>x-archive-</code>.
+            </p>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter archive key</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_ARCHIVE', levelNum: 8 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> most investigators read past the first page without thinking. seasoned ones start before the title.
+        </div>
+        <div class="next" id="next">
+            > letterhead read. next:
+            <a href="level9.html">Case 09 The Event →</a>
+        </div>
+    </div>
+
+    <footer>case 08 of 15 // an HTML document has two acts; only one is visible</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>
+

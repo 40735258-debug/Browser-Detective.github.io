@@ -1,0 +1,346 @@
+<!--Author: Sergio Pech
+    SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard — The Browser Detective</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+
+    <style>
+        .lb-head h2{
+          margin: 0;
+          font-size: 36px;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+          color: rgba(230,240,255,.95);
+          text-shadow: 0 0 22px rgba(58,160,255,.12);
+        }
+        :root[data-theme="pink"] .lb-head h2{ color: var(--text); }
+        .lb-head p{
+          margin: 10px 0 0; max-width: 720px;
+          color: rgba(159,177,217,.88);
+          line-height: 1.7; font-size: 15px;
+        }
+        :root[data-theme="pink"] .lb-head p{ color: var(--muted-c); }
+
+        .lb-toolbar{
+          display: flex; align-items: center; gap: 10px;
+          flex-wrap: wrap;
+          margin-top: 18px;
+        }
+        .lb-toolbar .who{
+          font-family: var(--mono);
+          font-size: 12px;
+          color: rgba(159,177,217,.85);
+          letter-spacing: .08em;
+        }
+        .lb-toolbar .who b{ color: var(--accent); font-weight: 700; }
+
+        .lb-mini h4 .num{ color: var(--accent); }
+    </style>
+</head>
+
+<body class="cyber">
+<div class="particles" aria-hidden="true"></div>
+
+<main class="wrap">
+    <section class="window" role="region" aria-label="Leaderboard">
+
+        <div class="chrome">
+            <div class="dots" aria-hidden="true">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="tab" aria-hidden="true">
+                <span class="lock"></span>
+                <span>The Hidden Web</span>
+            </div>
+            <div class="addr" aria-hidden="true">
+                <span>https://40735258-debug.github.io/Browser-Detective.github.io/leaderboard.html</span>
+            </div>
+            <div class="icons" aria-hidden="true">
+                <div class="icon"></div><div class="icon"></div><div class="icon"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <aside class="devtools" aria-label="Navigation Panel">
+                <nav class="dev-top" aria-label="Main Navigation">
+                    <a class="dev-pill" href="index.html">Home</a>
+                    <a class="dev-pill" href="how-to.html">How To Play</a>
+                    <a class="dev-pill" href="storyline.html">Storyline</a>
+                    <a class="dev-pill" href="levels.html">Level Select</a>
+                    <a class="dev-pill active" href="leaderboard.html">Leaderboard</a>
+                    <a class="dev-pill" href="settings.html">Settings</a>
+                </nav>
+
+                <div class="codebox" aria-label="Leaderboard store">
+<pre style="margin:0;white-space:pre-wrap">
+<span class="cm">// cloud leaderboard — Firebase Realtime DB</span>
+<span class="kw">const</span> <span class="hl">board</span> = <span class="tag">CloudLeaderboard</span>.fetch();
+
+<span class="cm">// shared across all devices
+// { name, highestLevel, playTimeSec,
+//   completed, startedAt, finishedAt }</span>
+</pre>
+                </div>
+
+                <div class="dev-bottom">
+                    <div class="mini lb-mini">
+                        <h4>Board</h4>
+                        <div class="line"><span class="cm">Runs:</span> <span class="num" id="m-runs">0</span></div>
+                        <div class="line"><span class="cm">Cleared:</span> <span class="num" id="m-cleared">0</span></div>
+                        <div class="line"><span class="cm">Ongoing:</span> <span class="num" id="m-ongoing">0</span></div>
+                    </div>
+
+                    <div class="mini lb-mini">
+                        <h4>Records</h4>
+                        <div class="line"><span class="cm">Top level:</span> <span class="num" id="m-top">—</span></div>
+                        <div class="line"><span class="cm">Fastest:</span> <span class="num" id="m-fastest">—</span></div>
+                        <div class="line"><span class="cm">Players:</span> <span class="num" id="m-players">0</span></div>
+                    </div>
+
+                    <div class="mini console">
+                        <h4>Dispatch</h4>
+                        <div class="line"><span class="prompt-c">&gt;</span> leaderboard.read()</div>
+                        <div class="line"><span class="hint-c">Note:</span> reset clears progress, not the board</div>
+                        <div class="line"><span class="hint-c">Note:</span> new alias = new row</div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="page" aria-label="Leaderboard">
+                <div class="brand">
+                    <div class="logo" aria-hidden="true"></div>
+                    <div class="titleblock">
+                        <h1><span>Leaderboard</span></h1>
+                        <p>Every attempt on the Hidden Web logged for good.</p>
+                    </div>
+                </div>
+
+                <div class="lb-head" style="margin-top:22px">
+                    <h2>Case File Register</h2>
+                    <p>
+                        Every detective who takes a run at the Hidden Web is recorded here — whether they closed
+                        all fifteen cases or stalled out halfway. Reset Progress in Settings clears only your current
+                        run; the board below is permanent.
+                    </p>
+                </div>
+
+                <div class="lb-toolbar">
+                    <div class="who" id="who">
+                        <span id="who-label">No active investigator.</span>
+                    </div>
+                    <div style="margin-left:auto; display:flex; gap:10px; flex-wrap:wrap;">
+                        <button type="button" class="bd-modal-btn alt" id="btn-change">Change Name</button>
+                        <a class="bd-modal-btn" id="btn-continue" href="levels.html">Continue Investigation →</a>
+                    </div>
+                </div>
+
+                <div class="lb-wrap">
+                    <table class="lb-table" aria-label="Leaderboard">
+                        <thead>
+                        <tr>
+                            <th class="lb-rank">#</th>
+                            <th>Detective</th>
+                            <th>Highest Level</th>
+                            <th>Play Time</th>
+                            <th>Status</th>
+                            <th>Started</th>
+                        </tr>
+                        </thead>
+                        <tbody id="lb-body"><!-- rows injection --></tbody>
+                    </table>
+                    <div class="lb-empty" id="lb-empty" style="display:none">
+                        &gt; no runs logged yet. the board fills as detectives pick up the case.
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </section>
+</main>
+
+<script>
+    function fmtTime(sec){
+      sec = Math.max(0, Math.floor(Number(sec) || 0));
+      var h = Math.floor(sec / 3600);
+      var m = Math.floor((sec % 3600) / 60);
+      var s = sec % 60;
+      function pad(n){ return (n < 10 ? "0" : "") + n; }
+      if (h > 0) return h + ":" + pad(m) + ":" + pad(s);
+      return pad(m) + ":" + pad(s);
+    }
+
+    function fmtDate(iso){
+      if (!iso) return "—";
+      try {
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return "—";
+        return d.toLocaleDateString(undefined, {
+          year: "numeric", month: "short", day: "2-digit"
+        });
+      } catch(e){ return "—"; }
+    }
+
+    function esc(s){
+      return String(s == null ? "" : s)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    function statusFor(row){
+      if (row.completed) return { cls: "closed",  label: "Case Closed" };
+      if ((row.highestLevel || 0) > 0) return { cls: "ongoing", label: "In Progress" };
+      return { cls: "open", label: "Just Opened" };
+    }
+
+    function rankClass(i){
+      if (i === 0) return "lb-rank gold";
+      if (i === 1) return "lb-rank silver";
+      if (i === 2) return "lb-rank bronze";
+      return "lb-rank";
+    }
+
+    /**Renders Rows, accepts an array of leaderboard row objects and draws them into the table. Used by both cloud and local fallback.*/
+    function renderRows(rows){
+      var P = window.DetectiveProgress;
+      var currentId = P.getRunId();
+      var body = document.getElementById("lb-body");
+      var empty = document.getElementById("lb-empty");
+      body.innerHTML = "";
+
+      if (!rows.length){
+        empty.style.display = "block";
+      } else {
+        empty.style.display = "none";
+        rows.forEach(function(r, i){
+          var st = statusFor(r);
+          var isMe = (r.id === currentId);
+          var tr = document.createElement("tr");
+          if (isMe) tr.className = "me";
+          tr.innerHTML =
+            '<td class="' + rankClass(i) + '">' + (i + 1) + '</td>' +
+            '<td class="lb-name">' + esc(r.name) + (isMe ? ' <span style="color:var(--accent);font-size:11px;letter-spacing:.12em;">· YOU</span>' : '') + '</td>' +
+            '<td class="lb-level">' +
+              (r.highestLevel || 0) +
+              ' <span class="of">/ ' + P.TOTAL_LEVELS + '</span>' +
+            '</td>' +
+            '<td class="lb-time">' + fmtTime(r.playTimeSec) + '</td>' +
+            '<td><span class="lb-status ' + st.cls + '">' + st.label + '</span></td>' +
+            '<td class="lb-date">' + fmtDate(r.startedAt) + '</td>';
+          body.appendChild(tr);
+        });
+      }
+
+      //Sidebar statistics
+      var cleared = 0, ongoing = 0, top = 0, fastest = null, names = {};
+      rows.forEach(function(r){
+        if (r.completed) cleared++;
+        else if ((r.highestLevel || 0) > 0) ongoing++;
+        if ((r.highestLevel || 0) > top) top = r.highestLevel || 0;
+        if (r.completed && (fastest == null || r.playTimeSec < fastest)) fastest = r.playTimeSec;
+        if (r.name) names[r.name] = true;
+      });
+      document.getElementById("m-runs").textContent    = rows.length;
+      document.getElementById("m-cleared").textContent = cleared;
+      document.getElementById("m-ongoing").textContent = ongoing;
+      document.getElementById("m-top").textContent     = top > 0 ? (top + "/" + P.TOTAL_LEVELS) : "—";
+      document.getElementById("m-fastest").textContent = fastest == null ? "—" : fmtTime(fastest);
+      document.getElementById("m-players").textContent = Object.keys(names).length;
+    }
+
+    function renderToolbar(){
+      var P = window.DetectiveProgress;
+      var whoLabel = document.getElementById("who-label");
+      var cont = document.getElementById("btn-continue");
+      if (P.hasPlayer()){
+        whoLabel.innerHTML =
+          '> current investigator: <b>' + esc(P.getPlayer()) + '</b>' +
+          ' · time on the case: <b>' + fmtTime(P.getPlayTimeSec()) + '</b>';
+
+        var done = P.all();
+        var next = 1;
+        for (var i = 1; i <= P.TOTAL_LEVELS; i++){
+          if (done.indexOf(i) === -1){ next = i; break; }
+          if (i === P.TOTAL_LEVELS) next = i;
+        }
+        cont.href = "level" + next + ".html";
+        cont.textContent = P.all().length >= P.TOTAL_LEVELS
+          ? "All Cases Closed · Return Home"
+          : "Continue at Case " + (next < 10 ? "0" + next : next) + " →";
+        if (P.all().length >= P.TOTAL_LEVELS) cont.href = "index.html";
+      } else {
+        whoLabel.textContent = "> no active investigator. set a name to begin a new run.";
+        cont.textContent = "Begin New Investigation →";
+        cont.href = "#";
+        cont.onclick = function(e){
+          e.preventDefault();
+          P.promptForName({ navigateTo: "level1.html" });
+        };
+      }
+    }
+
+    /**Full render, cloud-first with local fallback.
+     */
+    function render(){
+      renderToolbar();
+      if (window.CloudLeaderboard){
+        //One-time fetch to populate immediately
+        window.CloudLeaderboard.fetch().then(function(rows){
+          renderRows(rows);
+        }).catch(function(){
+          //Fallback to local if Firebase fails
+          renderRows(window.DetectiveProgress.getLeaderboard());
+        });
+      } else {
+        renderRows(window.DetectiveProgress.getLeaderboard());
+      }
+    }
+
+    document.getElementById("btn-change").addEventListener("click", function(){
+      window.DetectiveProgress.promptForName({
+        onOK: function(){ render(); }
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function(){
+      render();
+
+
+      if (window.CloudLeaderboard){
+        window.CloudLeaderboard.listen(function(rows){
+          renderRows(rows);
+          renderToolbar();
+        });
+      }
+    });
+
+    //Keeps the play time column ticking while the page is open.
+    setInterval(function(){
+      if (window.DetectiveProgress.hasPlayer()){
+        // Push updated play time to cloud so other viewers see it
+        window.DetectiveProgress.touchRun();
+        renderToolbar();
+      }
+    }, 15000);
+
+    //Cross-tab updates (local)
+    window.addEventListener("storage", function(e){
+      if (e.key && e.key.indexOf("bd.") === 0) render();
+    });
+</script>
+
+<script src="js/audio.js"></script>
+</body>
+</html>

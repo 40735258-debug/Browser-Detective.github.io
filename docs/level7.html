@@ -1,0 +1,104 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 07 The Reflection</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+    <style>
+        .drive {
+          background: linear-gradient(180deg, #0a1020, #060a15);
+          border: 1px solid #2a3d6b;
+          border-radius: 10px;
+          padding: 20px 22px;
+          font-family: var(--mono);
+          font-size: 14px;
+          color: var(--muted);
+          line-height: 1.9;
+          margin-top: 14px;
+        }
+        .drive .row { margin: 4px 0; }
+        .drive .label { color: var(--accent-2); }
+        .drive .value { color: var(--warn); letter-spacing: 1px; }
+        .drive .flip { color: var(--accent); }
+
+        /* no transforms — the text is stored backwards in the DOM,
+           and the player must read it that way. */
+
+        :root[data-theme="pink"] .drive { background: linear-gradient(180deg, #2a1028, #1a0815); border-color: #4a1845; }
+        :root[data-theme="pink"] .drive .value { color: #ff2f92; }
+        :root[data-theme="pink"] .drive .flip { color: #00ffd1; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 07</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level6.html">← Case 06</a>
+            <a href="level8.html">Case 08 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 07 THE REFLECTION</span>
+        A drive that writes in the wrong direction.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// evidence inventory</div>
+        <p class="story">
+            Veyra kept one of his ciphers on a mirror drive. Mirror drives are a fringe hardware quirk:
+            they record by inverted polarity, so every bit comes off the platter the opposite way round
+            from how it went on. The output below is verbatim what the read-head produced. It is not
+            broken. It is simply not meant to be read the way your eye is pointed.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// drive dump — mirror-00A</div>
+        <div class="drive">
+            <div class="row"><span class="label">device :: </span><span class="flip">MIRROR-00A</span></div>
+            <div class="row"><span class="label">mode   :: </span>polarity-inverted</div>
+            <div class="row"><span class="label">header :: </span><span class="value">5A3B-Z</span></div>
+            <div class="row"><span class="label">payload:: </span><span class="value">RORRIM_SSECCA</span></div>
+            <div class="row"><span class="label">footer :: </span><span class="value">Z-B3A5</span></div>
+            <div class="row" style="margin-top:10px;color:var(--muted)">&gt; read order: recorded right-to-left</div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter true token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_MIRROR', levelNum: 7 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> a reflection flips what it shows. your eye reads one way; this drive wrote the other.
+        </div>
+        <div class="next" id="next">
+            > polarity corrected. next lead:
+            <a href="level8.html">Case 08 The Letterhead →</a>
+        </div>
+    </div>
+
+    <footer>case 07 of 15 // the string is in the DOM; the direction is on you</footer>
+</div>
+
+<script src="audio.js"></script>
+</body>
+</html>

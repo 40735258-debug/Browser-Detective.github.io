@@ -1,0 +1,116 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 02 The Invisible Witness</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+    <style>
+
+        /* Witness exists in DOM but is not rendered*/
+        .witness { display: none; }
+
+        /* Red-herring "witness",renders, but contains a decoy token. */
+        .decoy {
+          font-family: var(--mono);
+          color: var(--muted);
+          font-size: 13px;
+          padding: 8px 10px;
+          border-left: 2px solid #22314f;
+          margin-top: 14px;
+        }
+
+        /* Witness card styling only visible if the player un-hides the element */
+        .witness-card {
+          background: #0a1020;
+          border: 1px solid var(--accent);
+          border-radius: 8px;
+          padding: 14px 16px;
+          margin-top: 14px;
+          font-family: var(--mono);
+          font-size: 14px;
+          color: var(--accent);
+        }
+
+        :root[data-theme="pink"] .decoy { border-left-color: #4a1845; }
+        :root[data-theme="pink"] .witness-card { background: #1a0815; border-color: #ff2f92; color: #00ffd1; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 02</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level1.html">← Case 01</a>
+            <a href="level3.html">Case 03 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 02 THE INVISIBLE WITNESS</span>
+        Someone is here. Nobody is here.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            You track Dr. Veyra's last movements to a safe-house. Inside, a witness is
+            supposedly waiting but the room appears empty. They're here. The DOM says so.
+            The stylesheet told them to <em>disappear</em>.
+        </p>
+        <p class="story" style="margin-top:10px">
+            Open devtools. Find the element with class <code>witness</code>. Either inspect its
+            text directly, or change its CSS so it appears on the page.
+        </p>
+
+        <div class="decoy">
+            &gt; visible interview transcript (decoy):<br/>
+            &gt; "i know nothing. the token is ACCESS_EMPTY."
+        </div>
+
+        <!--Witness hidden via CSS display: none -->
+        <div class="witness witness-card">
+            &gt; WITNESS STATEMENT (true):<br/>
+            &gt; "Dr. Veyra told me if anyone came asking, to give them this:<br/>
+            &gt; access token = ACCESS_SHADOW"
+        </div>
+
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_SHADOW', levelNum: 2 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> an element with <code>display: none</code> is part
+            of the DOM but not rendered. You can still read its text in the Elements panel, or
+            toggle the CSS rule off to make it appear. Ignore the decoy.
+        </div>
+        <div class="next" id="next">
+            > witness located. next scene:
+            <a href="level3.html">Case 03 Seeing Through the Veil </a>
+        </div>
+    </div>
+
+    <footer>case 02 of 15 // not everything in the DOM is on the page</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>

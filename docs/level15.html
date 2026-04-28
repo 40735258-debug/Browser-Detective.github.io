@@ -1,0 +1,241 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 15 The Deep Trace</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+    <!--Fragment 2: CSS custom property -->
+    <style>
+        :root {
+          --trace-f2: "GHOST";
+        }
+
+        .vault-final {
+          background: linear-gradient(180deg, rgba(76,240,199,0.03), rgba(76,240,199,0.01));
+          border: 1px dashed var(--accent);
+          border-radius: 14px;
+          padding: 32px 22px;
+          margin-top: 14px;
+          text-align: center;
+          position: relative;
+        }
+        .fragment-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 14px;
+          margin-top: 18px;
+        }
+        .frag-card {
+          background: rgba(0,0,0,0.3);
+          border: 1px solid var(--line);
+          border-radius: 10px;
+          padding: 16px;
+          font-family: var(--mono);
+          font-size: 12px;
+          color: var(--muted);
+          text-align: left;
+          line-height: 1.7;
+        }
+        .frag-card .frag-num {
+          color: var(--warn);
+          font-weight: 700;
+          letter-spacing: 2px;
+        }
+        .frag-card .frag-hint {
+          color: var(--accent-2);
+          margin-top: 6px;
+          display: block;
+        }
+
+        .assembly {
+          margin-top: 22px;
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--muted);
+          letter-spacing: 1px;
+        }
+        .assembly em { color: var(--accent); font-style: normal; }
+
+        .final-card {
+          margin-top: 18px;
+          padding: 22px;
+          background: linear-gradient(180deg, rgba(76,240,199,0.06), rgba(76,240,199,0.02));
+          border: 1px dashed var(--accent);
+          border-radius: 10px;
+          display: none;
+        }
+        .final-card.show { display: block; animation: revealFade 0.5s ease both; }
+        .final-card h2 { color: var(--accent); margin-top: 0; font-size: 22px; }
+
+        :root[data-theme="pink"] .vault-final { background: linear-gradient(180deg, rgba(255,47,146,0.05), rgba(255,47,146,0.02)); border-color: #ff2f92; }
+        :root[data-theme="pink"] .frag-card { background: rgba(42,16,40,0.5); border-color: #4a1845; }
+        :root[data-theme="pink"] .frag-card .frag-num { color: #ff2f92; }
+        :root[data-theme="pink"] .frag-card .frag-hint { color: #00ffd1; }
+        :root[data-theme="pink"] .final-card { background: linear-gradient(180deg, rgba(255,47,146,0.08), rgba(255,47,146,0.03)); border-color: #ff2f92; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 15 — final</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level14.html">← Case 14</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 15 THE DEEP TRACE</span>
+        Every layer you've learned to read. One final combination.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// final notes</div>
+        <p class="story">
+            Fifteen cases. Fifteen techniques. You've read HTML comments, exposed hidden DOM,
+            decoded CSS cloaks, called console functions, cracked encoded transmissions,
+            reversed mirror drives, parsed meta tags, inspected event handlers, traced pseudo-elements,
+            recovered localStorage stashes, extracted CSS variables, breached nested documents,
+            and decoded SVG blueprints.
+        </p>
+        <p class="story" style="margin-top:10px">
+            This is the last case. The passphrase is assembled from <em>five fragments</em>, each
+            hidden using a different technique you've mastered. Find all five, join them with
+            underscores, and close the investigation.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// fragment map</div>
+        <div class="vault-final">
+            <div class="fragment-grid">
+                <div class="frag-card">
+                    <span class="frag-num">FRAGMENT 1</span><br>
+                    technique: HTML comment<br>
+                    <span class="frag-hint">// somewhere in this page's source</span>
+                </div>
+                <div class="frag-card">
+                    <span class="frag-num">FRAGMENT 2</span><br>
+                    technique: CSS custom property<br>
+                    <span class="frag-hint">// a variable on :root</span>
+                </div>
+                <div class="frag-card">
+                    <span class="frag-num">FRAGMENT 3</span><br>
+                    technique: data attribute<br>
+                    <span class="frag-hint">// attached to a DOM element</span>
+                </div>
+                <div class="frag-card">
+                    <span class="frag-num">FRAGMENT 4</span><br>
+                    technique: console function<br>
+                    <span class="frag-hint">// call it to receive the fragment</span>
+                </div>
+                <div class="frag-card">
+                    <span class="frag-num">FRAGMENT 5</span><br>
+                    technique: SVG text<br>
+                    <span class="frag-hint">// hidden in a vector below</span>
+                </div>
+            </div>
+
+            <!--Fragment 3: data attribute -->
+            <div class="assembly" data-trace-f3="IN">
+                &gt; assemble: F1_F2_F3_F4_F5 → <em>enter the combined passphrase</em>
+            </div>
+
+            <!--Fragment 5: SVG hidden text -->
+            <svg viewBox="0 0 300 40" xmlns="http://www.w3.org/2000/svg"
+                 style="margin-top:14px; max-width:300px;" aria-hidden="true">
+                <rect width="300" height="40" fill="#060a15" rx="6"/>
+                <text x="150" y="14" text-anchor="middle" fill="#1b2b4d" font-family="monospace" font-size="9">
+                    TRACE VECTOR · VEYRA LABS
+                </text>
+                <text x="150" y="30" text-anchor="middle"
+                      fill="#060a15" fill-opacity="0.01"
+                      font-family="monospace" font-size="13" letter-spacing="3"
+                      id="trace-f5">MACHINE</text>
+            </svg>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// final evidence log, enter the deep trace</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="F1_F2_F3_F4_F5" autocomplete="off" />
+            <button onclick="submitDeepTrace()">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> five fragments, five techniques. combine them: FRAGMENT1_FRAGMENT2_FRAGMENT3_FRAGMENT4_FRAGMENT5
+        </div>
+
+        <div class="final-card" id="finalCard">
+            <h2>CASE CLOSED — The Deep Trace is Complete.</h2>
+            <p class="story">
+                Fifteen cases. Fifteen layers of the web, each one hiding something in plain sight.
+                HTML comments. CSS cloaks. DOM ghosts. Console vaults. Encoded transmissions.
+                Mirror drives. Meta tags. Event handlers. Pseudo-elements. LocalStorage stashes.
+                CSS variables. Nested documents. SVG blueprints. And, at the end, a cipher
+                assembled from all of them.
+            </p>
+            <p class="story" style="margin-top:10px">
+                Veyra's trail was never about the tokens. It was about teaching you to see what
+                the browser sees every layer, every trick, every hiding place that a webpage
+                offers. You've learned to read the web the way it reads itself.
+            </p>
+            <p class="story" style="margin-top:10px">
+                Congratulations, Detective. The Hidden Web has nothing left to hide from you.
+            </p>
+            <p style="margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--muted)">
+                &gt; all 15 cases complete.
+                <a href="index.html" style="color:var(--accent)">return to hub →</a>
+            </p>
+        </div>
+
+        <div class="next" id="next" style="display:none"></div>
+    </div>
+
+    <footer>case 15 of 15 // every layer has a voice, you just learned to listen</footer>
+</div>
+
+<script src="js/audio.js"></script>
+<script>
+    //Fragment 4: console function
+    function traceFragment4() {
+      console.log("Fragment 4 recovered.");
+      return "THE";
+    }
+
+    //The combined passphrase: GHOST_GHOST_IN_THE_MACHINE
+    //Wait that's F1=GHOST, F2=GHOST (from CSS var), F3=IN, F4=THE, F5=MACHINE
+    //So the answer is: GHOST_GHOST_IN_THE_MACHINE
+    function submitDeepTrace() {
+      var input = document.getElementById("answer");
+      var fb    = document.getElementById("feedback");
+      var final = document.getElementById("finalCard");
+      var v = (input.value || "").trim().toUpperCase();
+      if (v === "GHOST_GHOST_IN_THE_MACHINE") {
+        fb.className = "feedback ok reveal";
+        fb.textContent = "> DEEP TRACE VERIFIED. all cases closed. the hidden web is yours.";
+        window.DetectiveProgress.markComplete(15);
+        final.classList.add("show");
+        input.disabled = true;
+      } else {
+        fb.className = "feedback bad reveal";
+        fb.textContent = "> INCOMPLETE TRACE. find all five fragments and join them with underscores.";
+      }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 10 The Keystone</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+    <style>
+        .shrine {
+          background: linear-gradient(180deg, rgba(76,240,199,0.03), rgba(76,240,199,0.01));
+          border: 1px dashed var(--accent);
+          border-radius: 14px;
+          padding: 38px 22px;
+          margin-top: 14px;
+          text-align:center;
+          position: relative;
+        }
+
+        /*The data attribute holds the string , and the ::before renders it invisible to the user*/
+        .keystone {
+          display: inline-block;
+          font-family: var(--mono);
+          font-size: 18px;
+          letter-spacing: 3px;
+          padding: 10px 18px;
+          border-radius: 8px;
+          border: 1px solid rgba(76,240,199,0.25);
+          position: relative;
+        }
+        .keystone::before {
+          content: attr(data-k);
+          color: transparent;
+          text-shadow: none;
+        }
+        .keystone::after {
+          content: "▌";
+          color: rgba(76,240,199,0.35);
+          margin-left: 6px;
+          animation: blink 1.2s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0.15; } }
+
+        .plinth {
+          font-family: var(--mono);
+          font-size: 12px;
+          color: var(--muted);
+          margin-top: 18px;
+        }
+
+        :root[data-theme="pink"] .shrine { background: linear-gradient(180deg, rgba(255,47,146,0.05), rgba(255,47,146,0.02)); border-color: #ff2f92; }
+        :root[data-theme="pink"] .keystone { border-color: rgba(255,47,146,0.3); }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 10</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level9.html">← Case 09</a>
+            <a href="level11.html">Case 11 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 10 THE KEYSTONE</span>
+        The last word was never written.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            Everything Veyra left for you so far has been direct hidden in comments, DOM, CSS,
+            console, transmissions, reflections, letterheads, and event handlers. But this case
+            is different.
+        </p>
+        <p class="story" style="margin-top:10px">
+            The keystone is on this page. Its characters were never typed into the HTML as text;
+            they were fed in on the side and assembled by the browser during render. The HTML only
+            says <em>where</em>. The stylesheet says <em>how</em>. The browser composes the result and paints it
+            where your eye can't read it.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">// the keystone</div>
+        <div class="shrine">
+            <span class="keystone" id="keystone" data-k="ACCESS_KEYSTONE"></span>
+            <div class="plinth">
+                &gt; the text on this block was composed during render, not at author time.
+            </div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// evidence log, enter the keystone</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_XXXX" autocomplete="off" />
+            <button onclick="checkAnswer({ expected: 'ACCESS_KEYSTONE', levelNum: 10 })">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> the browser paints what the code never typed. ask the paint, not the author.
+        </div>
+        <div class="next" id="next">
+            > keystone verified. next case:
+            <a href="level11.html">Case 11 The Stash →</a>
+        </div>
+    </div>
+
+    <footer>case 10 of 15 // some things the page shows were never in the page</footer>
+</div>
+
+<script src="js/audio.js"></script>
+</body>
+</html>

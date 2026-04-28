@@ -1,0 +1,335 @@
+<!--Author: Sergio Pech
+    SET08801 -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Storyline The Browser Detective</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+
+    <style>
+        .story-head{
+          text-align:center; padding-top: 4px;
+        }
+        .story-head h2{
+          margin: 6px 0 0;
+          font-size: 44px;
+          letter-spacing: .18em;
+          text-transform: uppercase;
+          font-weight: 900;
+          color: rgba(0,255,209,.95);
+          text-shadow: 0 0 22px rgba(0,255,209,.2);
+        }
+        :root[data-theme="pink"] .story-head h2{
+          color: var(--cyan2);
+          text-shadow: 0 0 18px rgba(0,140,119,.15);
+        }
+        .story-head p{
+          margin:10px auto 0; max-width: 680px;
+          color: rgba(159,177,217,.85);
+          line-height:1.7;
+        }
+        :root[data-theme="pink"] .story-head p{ color: var(--muted-c); }
+
+        .chapters{ margin-top: 22px; }
+    </style>
+</head>
+
+<body class="cyber">
+<div class="particles" aria-hidden="true"></div>
+
+<main class="wrap">
+    <section class="window" role="region" aria-label="Storyline">
+
+        <div class="chrome">
+            <div class="dots" aria-hidden="true">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="tab" aria-hidden="true">
+                <span class="lock"></span>
+                <span>The Hidden Web</span>
+            </div>
+            <div class="addr" aria-hidden="true">
+                <span>https://40735258-debug.github.io/Browser-Detective.github.io/storyline.html</span>
+            </div>
+            <div class="icons" aria-hidden="true">
+                <div class="icon"></div><div class="icon"></div><div class="icon"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <aside class="devtools" aria-label="Navigation Panel">
+                <nav class="dev-top" aria-label="Main Navigation">
+                    <a class="dev-pill" href="index.html">Home</a>
+                    <a class="dev-pill" href="how-to.html">How To Play</a>
+                    <a class="dev-pill active" href="storyline.html">Storyline</a>
+                    <a class="dev-pill" href="levels.html">Level Select</a>
+                    <a class="dev-pill" href="leaderboard.html">Leaderboard</a>
+                    <a class="dev-pill" href="settings.html">Settings</a>
+                </nav>
+
+                <div class="codebox" aria-label="Case file excerpt">
+<pre style="margin:0;white-space:pre-wrap">
+<span class="cm">/* case file: 40735258 */</span>
+<span class="kw">const</span> <span class="hl">suspect</span> = <span class="hl">"Dr. Otis Veyra"</span>;
+<span class="kw">const</span> <span class="hl">lastSeen</span> = <span class="hl">"intranet  03:14 local"</span>;
+<span class="kw">const</span> <span class="hl">leads</span>   = [
+  <span class="hl">"comments"</span>, <span class="hl">"hidden dom"</span>,
+  <span class="hl">"css cloak"</span>, <span class="hl">"console"</span>,
+  <span class="hl">"encoded"</span>,  <span class="hl">"mirror"</span>,
+  <span class="hl">"letterhead"</span>, <span class="hl">"event"</span>,
+  <span class="hl">"keystone"</span>,
+];
+
+<span class="cm">// The story unfolds as each lead is solved.</span>
+</pre>
+                </div>
+
+                <div class="dev-bottom">
+                    <div class="mini">
+                        <h4>Case File</h4>
+                        <div class="line"><span class="cm">#:</span> 40735258</div>
+                        <div class="line"><span class="cm">Subject:</span> Dr. O. Veyra</div>
+                        <div class="line"><span class="cm">Status:</span> ongoing</div>
+                    </div>
+
+                    <div class="mini">
+                        <h4>Chapters</h4>
+                        <div class="line"><span class="cm">Unlocked:</span> <span class="hl" id="ch-unlocked">1</span> / 10</div>
+                        <div class="line"><span class="cm">Classified:</span> <span class="hl" id="ch-locked">9</span></div>
+                    </div>
+
+                    <div class="mini console">
+                        <h4>Dispatch</h4>
+                        <div class="line"><span class="prompt-c">&gt;</span> read_case_file()</div>
+                        <div class="line"><span class="hint-c">Status:</span> pages streaming…</div>
+                        <div class="line"><span class="hint-c">Note:</span> classified fragments unlock on progress</div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="page" aria-label="Storyline">
+
+                <div class="story-head">
+                    <h2>The Case File</h2>
+                    <p>
+                        A missing founder. A quiet intranet. A trail of clues buried inside the webpage itself.
+                        Each chapter below maps to one of the fifteen cases classified pages unlock as you close cases.
+                    </p>
+                </div>
+
+                <div class="chapters" id="chapters">
+
+                </div>
+
+                <div class="cta-row" style="margin-top: 22px;">
+                    <a class="btn" href="levels.html">Open Level Select →</a>
+                    <a class="btn alt" id="continueBtn" href="level1.html">Continue Investigation</a>
+                </div>
+
+            </section>
+        </div>
+    </section>
+</main>
+
+<script>
+    const CHAPTERS = [
+      {
+        num: 1,
+        title: "Prologue - First Impressions",
+        body: [
+          "Dr. Otis Veyra, founder of Veyra Systems, has vanished. His office was wiped clean the night he disappeared  nothing on the desk but a single card, face up, that read: \"Look at the margins.\"",
+          "At first glance the case site is blank. But source code is never blank  HTML comments are invisible on the rendered page, not invisible to someone looking through it. Your first clue is waiting in the margins of the markup itself."
+        ],
+        teaser: "The office is empty. The page is empty. Neither of those things is true."
+      },
+      {
+        num: 2,
+        title: "Chapter II - The Invisible Witness",
+        body: [
+          "Veyra's trail leads to a safe-house off the intranet grid. Inside, there is supposed to be a witness someone who spoke with him in the hours before he vanished. But when the page renders, the room looks empty.",
+          "The DOM tells a different story. The witness is there, wrapped in a class called <code>.witness</code>, and the stylesheet told them to stay hidden. <em>display: none</em> doesn't delete a thing. It just stops the browser drawing it. Read the element, or flip the rule off, and the witness speaks."
+        ],
+        teaser: "Someone is in the room. You just can't see them."
+      },
+      {
+        num: 3,
+        title: "Chapter III - Seeing Through the Veil",
+        body: [
+          "Pinned to Veyra's workshop wall is a blueprint. To the eye, it's mostly blank space with a few stray marks. But the stylesheet has been tampered with: some characters share the background colour, some are dimmed to near-zero opacity, and the last fragment of the code is injected by a CSS <code>::after</code> pseudo-element — painted on by the browser, but not present in the HTML at all.",
+          "Three fragments. Three forms of camouflage. Highlight the text, inspect the nodes, read the computed styles. Assemble the full access token."
+        ],
+        teaser: "The note is already on the wall. Your eyes just can't pick it up."
+      },
+      {
+        num: 4,
+        title: "Chapter IV - The Console Cipher",
+        body: [
+          "Behind a reinforced door in Veyra's private vault, the lock isn't a token it's a function. Reading the source isn't enough this time; you have to <em>run</em> the code.",
+          "The vault script exposes three functions: <code>caseFile()</code> for colour, <code>hint()</code> if you're stuck, and <code>decryptVault()</code> which quietly reassembles a shattered string and returns the passcode. Open the console. Type the call. Read what comes back."
+        ],
+        teaser: "Some doors only open when you execute the call."
+      },
+      {
+        num: 5,
+        title: "Chapter V - The First Vault",
+        body: [
+          "Everything you've learned converges in a single dossier. Four fragments, one per skill: an HTML comment near the top of the page, a witness hidden by <code>display: none</code>, a CSS cloak in matching-colour text, and a final fragment returned from <code>finalize()</code> in the console.",
+          "Chain them with underscores. Submit the full token. Crack the first vault.",
+          "But the vault is empty. An abandoned chair, a shortwave radio still humming, and a dossier marked with one line: <em>this was the rehearsal</em>. Veyra built himself a labyrinth and the outer ring is only four walls of a much deeper keep."
+        ],
+        teaser: "Every clue so far was a rehearsal for this one."
+      },
+      {
+        num: 6,
+        title: "Chapter VI - The Encoded Transmission",
+        body: [
+          "A shortwave receiver patched into the vault is still warm. It has logged a single packet at 03:14 the same hour Veyra was last seen. The message is a line of alphanumeric noise with a trailing equals sign. On an open frequency, operators don't send plaintext; they armour it in a standard wrapping the other end knows how to unwrap.",
+          "The browser ships with the reverse function already built in. Feed the packet through it and the armour falls away."
+        ],
+        teaser: "The frequency is dead. One packet is still moving on it."
+      },
+      {
+        num: 7,
+        title: "Chapter VII - The Reflection",
+        body: [
+          "Recovered from the abandoned workshop: a single drive labelled <em>MIRROR-01</em>. When you mount it, the filesystem is intact but every string has been written back-to-front. Veyra's recording device flipped its polarity on ingest to defeat casual skimming.",
+          "The eye reads left-to-right. The drive wrote right-to-left. Reverse the string and the truth reads normally."
+        ],
+        teaser: "A drive recorded the truth. It just recorded it the wrong way round."
+      },
+      {
+        num: 8,
+        title: "Chapter VIII - The Letterhead",
+        body: [
+          "Veyra's archive follows old-school librarian practice: every document is stamped before the first page begins. The text of the dossier is contradictory and may have been tampered with. The <b>letterhead</b> set at ingest, sitting above the body, rarely inspected — is the piece of the record that survives intact.",
+          "In an HTML document the letterhead is the <code>&lt;head&gt;</code>. Meta tags, titles, links. Most investigators scroll past to the body. Seasoned ones start before the title."
+        ],
+        teaser: "The body of the page is a distraction."
+      },
+      {
+        num: 9,
+        title: "Chapter IX - The Event",
+        body: [
+          "Veyra's inner sanctum is a single door with a single handle. Pulling on the handle appears to do nothing but a handle has to know what to do when pulled, and the browser files those instructions in its own pocket rather than on the page.",
+          "Inspect the handle's attributes and you can read the routine before it runs. Call the routine yourself, and you catch the value the click ordinarily throws away."
+        ],
+        teaser: "The handle opens on contact. Its instructions live in its own pocket."
+      },
+      {
+        num:10,
+        title: "Chapter X - The Keystone",
+        body: [
+          "At the top of Veyra's keep is a single stone with a single word on it except the word was never typed into the HTML as text. The markup only says <em>where</em> the word goes. The stylesheet says <em>how</em> to render it. The browser composes the two during paint and prints the result on your screen, in a hue tuned so your eye can't read it.",
+          "The HTML never held the keystone. The author never typed it. Read the paint, not the page inspect the computed style, and the last word appears.",
+          "But the keep has a second wing. Veyra's trail goes deeper — into the browser's own memory, the cascade's hidden variables, nested documents, and vector blueprints."
+        ],
+        teaser: "The last word was never typed. The browser will compose it for you."
+      },
+      {
+        num:11,
+        title: "Chapter XI - The Stash",
+        body: [
+          "Beyond the keystone, the trail leaves the page entirely. Veyra began writing to the browser's own memory — <em>localStorage</em> — a shelf that survives reloads, tab closures, and even restarts.",
+          "A script on the case page quietly deposits a token the moment it loads. It's not in the HTML, not in the CSS, not in the console output. It's in the browser's persistent storage, waiting to be found by someone who knows where to look."
+        ],
+        teaser: "The token isn't on the page. It's in the browser's memory."
+      },
+      {
+        num:12,
+        title: "Chapter XII - The Variable",
+        body: [
+          "Modern stylesheets can hold more than colours and fonts. CSS custom properties — variables declared on <code>:root</code> — can store arbitrary text. They sit quietly in the cascade, visible in DevTools' computed styles but invisible to the naked eye.",
+          "Veyra registered a custom property that doesn't control any visible style. It just waits to be queried. Read it from the computed styles or with <code>getComputedStyle</code> in the console."
+        ],
+        teaser: "The stylesheet holds more than colours."
+      },
+      {
+        num:13,
+        title: "Chapter XIII - The Nested Document",
+        body: [
+          "An iframe creates a document inside a document — its own DOM, its own CSS, its own rules. When you inspect the outer page, the inner page lives in a separate tree, nested inside the <code>&lt;iframe&gt;</code> element.",
+          "Veyra embedded a small document using the <code>srcdoc</code> attribute. The token is inside, coloured to match the inner page's background. Drill into the iframe's own #document node or select all text inside the frame."
+        ],
+        teaser: "A page inside a page. The outer document can't show you what's within."
+      },
+      {
+        num:14,
+        title: "Chapter XIV - The Vector",
+        body: [
+          "SVG — Scalable Vector Graphics — draws shapes and text using XML markup inline in the HTML. Unlike raster images, every element in an SVG is a full DOM node that can be inspected, styled, and manipulated.",
+          "Veyra embedded the token as a <code>&lt;text&gt;</code> element inside an SVG blueprint, then made it invisible with <em>fill-opacity</em> tuned to near-zero and a fill colour matching the background. The Elements panel will show you what the canvas hides."
+        ],
+        teaser: "Drawn by math, not pixels. Every shape is a DOM node."
+      },
+      {
+        num:15,
+        title: "Chapter XV - The Deep Trace",
+        body: [
+          "Everything you've learned — fifteen techniques, fifteen layers of the web — converges in one final cipher. Five fragments, each hidden using a different method: an HTML comment, a CSS custom property, a data attribute, a console function, and an SVG text node.",
+          "Find all five, join them with underscores, and submit the passphrase.",
+          "Fifteen cases. Fifteen lessons. HTML comments, CSS cloaks, DOM witnesses, console vaults, encoded transmissions, mirror drives, letterheads, event handlers, pseudo-elements, localStorage stashes, CSS variables, nested documents, SVG blueprints, and a final cipher assembled from all of them. Veyra wasn't missing. He had built a ladder to find someone who could climb every rung.",
+          "That person is you, Detective."
+        ],
+        teaser: "Five fragments. Five techniques. One final combination."
+      },
+    ];
+
+    function render(){
+      const P = window.DetectiveProgress;
+      const host = document.getElementById("chapters");
+      host.innerHTML = "";
+
+      let unlockedCount = 0;
+      CHAPTERS.forEach(ch => {
+        const unlocked = P.isUnlocked(ch.num);
+        if (unlocked) unlockedCount++;
+
+        const el = document.createElement("div");
+        el.className = "chapter" + (unlocked ? "" : " locked");
+
+        let inner = `<div class="chapter-num">Chapter ${String(ch.num).padStart(2,"0")}</div>
+                     <h3>${ch.title}</h3>`;
+
+        if (unlocked){
+          inner += ch.body.map(p => `<p>${p}</p>`).join("");
+        } else {
+          inner += `<p>${ch.teaser}</p>
+                    <p class="lock-note">close case 0${ch.num - 1} to unlock this chapter.</p>`;
+        }
+        el.innerHTML = inner;
+        host.appendChild(el);
+      });
+
+      document.getElementById("ch-unlocked").textContent = unlockedCount;
+      document.getElementById("ch-locked").textContent   = CHAPTERS.length - unlockedCount;
+
+      const cont = document.getElementById("continueBtn");
+      let current = null;
+      for (let i = 0; i < CHAPTERS.length; i++){
+        if (P.isUnlocked(CHAPTERS[i].num) && !P.isComplete(CHAPTERS[i].num)){
+          current = CHAPTERS[i]; break;
+        }
+      }
+      if (current){
+        cont.href = "level" + current.num + ".html";
+        cont.textContent = "Continue at Case 0" + current.num + " →";
+      } else if (P.all().length >= CHAPTERS.length){
+        cont.href = "index.html";
+        cont.textContent = "Case Closed — Return Home";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", render);
+</script>
+
+<script src="js/audio.js"></script>
+</body>
+</html>

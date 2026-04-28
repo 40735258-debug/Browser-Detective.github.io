@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Case of The Hidden Browser</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+</head>
+
+<body class="cyber">
+<div class="particles" aria-hidden="true"></div>
+
+<main class="wrap">
+    <section class="window" role="region" aria-label="Browser Detective UI Prototype">
+
+        <div class="chrome">
+            <div class="dots" aria-hidden="true">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="tab" aria-hidden="true">
+                <span class="lock"></span>
+                <span>The Hidden Web</span>
+            </div>
+            <div class="addr" aria-hidden="true">
+                <span>https://40735258-debug.github.io/Browser-Detective.github.io/Home</span>
+            </div>
+            <div class="icons" aria-hidden="true">
+                <div class="icon"></div><div class="icon"></div><div class="icon"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <aside class="devtools" aria-label="Developer Tools Panels">
+
+                <nav class="dev-top" aria-label="Main Navigation">
+                    <a class="dev-pill active" href="index.html">Home</a>
+                    <a class="dev-pill" href="how-to.html">How To Play</a>
+                    <a class="dev-pill" href="storyline.html">Storyline</a>
+                    <a class="dev-pill" href="levels.html">Level Select</a>
+                    <a class="dev-pill" href="leaderboard.html">Leaderboard</a>
+                    <a class="dev-pill" href="settings.html">Settings</a>
+                </nav>
+
+                <div class="codebox" aria-label="HTML inspection preview">
+<pre style="margin:0;white-space:pre-wrap">
+<span class="tag">&lt;div</span> <span class="kw">id</span>=<span class="hl">"clue-area"</span><span class="tag">&gt;</span>
+  <span class="cm">&lt;!-- The truth is never on the surface... --&gt;</span>
+  <span class="tag">&lt;span</span> <span class="kw">class</span>=<span class="hl">"low-opacity"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="sel"><span class="tag">&lt;div</span> <span class="kw">id</span>=<span class="hl">"clue-area"</span><span class="tag">&gt;</span>
+  <span class="cm">&lt;!-- truth hidden here --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></span>
+
+<span class="tag">&lt;script&gt;</span>
+  <span class="kw">function</span> <span class="hl">reveal()</span> { <span class="kw">console</span>.log(<span class="hl">"Clue unlocked"</span>); }
+<span class="tag">&lt;/script&gt;</span>
+</pre>
+                </div>
+
+                <div class="dev-bottom">
+                    <div class="mini" aria-label="HTML tab preview">
+                        <h4>HTML</h4>
+                        <div class="line"><span class="cm">Hint:</span> check hidden comments</div>
+                        <div class="line"><span class="cm">Look for:</span> <span class="hl">clue-area</span></div>
+                        <div class="line"><span class="cm">Goal:</span> find the token</div>
+                    </div>
+
+                    <div class="mini" aria-label="CSS tab preview">
+                        <h4>CSS</h4>
+                        <div class="line"><span class="cm">style.css</span></div>
+                        <div class="line"><span class="kw">.low-opacity</span> { <span class="hl">opacity</span>: .04; }</div>
+                        <div class="line"><span class="kw">.hidden</span> { <span class="hl">display</span>: none; }</div>
+                    </div>
+
+                    <div class="mini console" aria-label="Console output preview">
+                        <h4>Console</h4>
+                        <div class="line"><span class="prompt-c">&gt;</span> investigate()</div>
+                        <div class="line"><span class="hint-c">Hint:</span> Decode the message in <span class="hl">style.css</span></div>
+                        <div class="line"><span class="prompt-c">&gt;</span> reveal()</div>
+                        <div class="line"><span class="hint-c">Output:</span> token fragment found.</div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="page" aria-label="Game Homepage">
+                <div class="brand">
+                    <div class="logo" aria-hidden="true"></div>
+                    <div class="titleblock">
+                        <h1><span>The Browser Detective</span></h1>
+                        <p>The Case of the Hidden Web</p>
+                    </div>
+                </div>
+
+                <div class="hero">
+                    <h2>Not Everything Is As It Seems…</h2>
+                    <p>
+                        This is not a traditional browser game. The investigation happens inside the webpage itself.
+                        Players must inspect hidden HTML comments, analyze CSS visual clues, manipulate DOM elements,
+                        and use JavaScript console interaction to uncover evidence and progress through each stage.
+                    </p>
+
+                    <div class="cta-row">
+                        <a class="btn" href="levels.html">Investigate</a>
+                        <a class="btn alt" href="how-to.html">How To Play</a>
+                    </div>
+
+                    <div class="objective">
+                        <b>Objective:</b>
+                        <span> Solve the mystery by exploring what the browser hides in HTML, CSS, DOM, and JavaScript.</span>
+                    </div>
+
+                    <div class="code-animation" aria-label="Coding animation">
+                        <pre id="typingCode" aria-live="polite"></pre>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </section>
+</main>
+
+<script>
+    // Typewriter animation for the home hero.
+    const codeText = `
+> Initializing investigation...
+> Loading case files...
+
+function revealClue(){
+  const token = "hidden_fragment_01";
+  console.log("Clue discovered:", token);
+}
+
+> scanning DOM elements...
+> analyzing style.css...
+> hidden message detected...
+
+> investigation ready.
+`.trim();
+
+    const target = document.getElementById("typingCode");
+    let i = 0;
+    const speed = 28;
+    function typeCode(){
+      if(!target) return;
+      if(i < codeText.length){
+        target.textContent += codeText.charAt(i);
+        i++;
+        setTimeout(typeCode, speed);
+      }
+    }
+    window.addEventListener("DOMContentLoaded", typeCode);
+</script>
+
+<script src="js/audio.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!-- Author: Sergio Pech
+     SET08801 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case 05 The First Vault</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/progress.js"></script>
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="js/firebase-leaderboard.js"></script>
+    <style>
+        /* Fragment A — hidden HTML comment */
+
+        /* Fragment B — element with display:none */
+        .locked-room { display: none; }
+
+        /* Fragment C — text colored the same as the dossier background */
+        .invisible-ink {
+          color: #0a1020;
+          background: transparent;
+        }
+
+        .dossier {
+          background: #0a1020;
+          border: 1px solid #2a3d6b;
+          border-radius: 10px;
+          padding: 18px;
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--muted);
+          margin-top: 14px;
+        }
+        .dossier .row { margin: 6px 0; }
+        .dossier .tag { color: var(--accent-2); }
+
+        .progress-steps {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .step {
+          background: #060a15;
+          border: 1px solid #22314f;
+          border-radius: 6px;
+          padding: 10px 8px;
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--muted);
+          text-align: center;
+          letter-spacing: 1px;
+        }
+        .step.done { color: var(--accent); border-color: var(--accent); }
+        .step .frag { display: block; font-size: 10px; color: var(--muted); margin-top: 4px; }
+        .step.done .frag { color: var(--warn); }
+
+        .final-card {
+          margin-top: 18px;
+          padding: 18px;
+          background: linear-gradient(180deg, rgba(76,240,199,0.05), rgba(76,240,199,0.02));
+          border: 1px dashed var(--accent);
+          border-radius: 10px;
+          display: none;
+        }
+        .final-card.show { display: block; animation: revealFade 0.5s ease both; }
+        .final-card h2 { color: var(--accent); margin-top: 0; }
+
+        :root[data-theme="pink"] .invisible-ink { color: #1a0815; }
+        :root[data-theme="pink"] .dossier { background: #1a0815; border-color: #4a1845; }
+        :root[data-theme="pink"] .step { background: #2a1028; border-color: #4a1845; }
+        :root[data-theme="pink"] .step.done { color: #ff2f92; border-color: #ff2f92; }
+        :root[data-theme="pink"] .final-card { background: linear-gradient(180deg, rgba(255,47,146,0.05), rgba(255,47,146,0.02)); border-color: #ff2f92; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="topbar">
+        <div class="brand">THE BROWSER DETECTIVE <span>// case 05 — first vault</span></div>
+        <nav class="nav">
+            <a href="index.html">Hub</a>
+            <a href="levels.html">Levels</a>
+            <a href="settings.html">Settings</a>
+            <a href="level4.html">← Case 04</a>
+            <a href="level6.html">Case 06 →</a>
+        </nav>
+    </div>
+
+    <h1>
+        <span class="case">CASE 05 — THE FIRST VAULT</span>
+        All clues. One room. Find Dr. Veyra.
+    </h1>
+
+    <div class="panel">
+        <div class="panel-title">// case notes</div>
+        <p class="story">
+            Everything you've learned converges here. The final passcode is assembled from
+            <em>four</em> fragments — one hidden in each layer of the page. Collect them in
+            order and submit the full code.
+        </p>
+        <div class="progress-steps" id="steps">
+            <div class="step" data-step="1">A · HTML COMMENT<span class="frag" id="frag1">?</span></div>
+            <div class="step" data-step="2">B · HIDDEN DOM<span class="frag" id="frag2">?</span></div>
+            <div class="step" data-step="3">C · CSS CLOAK<span class="frag" id="frag3">?</span></div>
+            <div class="step" data-step="4">D · CONSOLE CALL<span class="frag" id="frag4">?</span></div>
+        </div>
+    </div>
+
+    <!--   FRAGMENT A (html comment): FRAGMENT_A = "FOUND"            -->
+
+    <div class="panel">
+        <div class="panel-title">// veyra's final dossier</div>
+        <div class="dossier">
+            <div class="row"><span class="tag">[A]</span> first fragment — hidden in the page source near the top of this panel.</div>
+
+            <div class="row"><span class="tag">[B]</span> second fragment — a witness locked in a room:
+                <div class="locked-room">
+                    &gt; LOCKED ROOM: FRAGMENT_B = "DR"
+                </div>
+            </div>
+
+            <div class="row"><span class="tag">[C]</span> third fragment — written in invisible ink:
+                <span class="invisible-ink">FRAGMENT_C = "VEYRA"</span>
+            </div>
+
+            <div class="row"><span class="tag">[D]</span> fourth fragment — stored in a function. Open the Console and call <code>finalize()</code>.</div>
+
+            <div class="row" style="margin-top:10px;color:var(--muted)">
+                &gt; when you have all four, the full token is: <br/>
+                &nbsp;&nbsp;&nbsp;ACCESS_ + A + _ + B + _ + C + _ + D
+            </div>
+        </div>
+    </div>
+
+    <div class="panel evidence">
+        <div class="panel-title">// final evidence log, enter complete token</div>
+        <div class="prompt">
+            <span class="caret">&gt;</span>
+            <input type="text" id="answer" placeholder="ACCESS_A_B_C_D" autocomplete="off" />
+            <button onclick="submitFinal()">Submit</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint">
+            <span class="tag">hint:</span> fragments are A in an HTML comment, B in a
+            <code>display:none</code> element, C in text colored the same as its background,
+            D returned by <code>finalize()</code> in the console. Chain with underscores.
+        </div>
+
+        <div class="final-card" id="finalCard">
+            <h2>SURFACE CLEARED — but the floor is hollow.</h2>
+            <p class="story">
+                Four fragments, one token, one vault. Inside: not Dr. Veyra, but an empty chair, a
+                shortwave radio still humming, and a dossier marked with a single line —
+                <em>"this was the rehearsal."</em>
+            </p>
+            <p class="story" style="margin-top:10px">
+                The man built himself a labyrinth, and this was only the outer ring. There are five more
+                ways to hide something inside a webpage, and he used every one of them.
+            </p>
+            <p style="margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--muted)">
+                &gt; 5 of 15 cases closed. the trail continues at
+                <a href="level6.html" style="color:var(--accent)">Case 06 The Encoded Transmission →</a>
+            </p>
+        </div>
+
+        <div class="next" id="next" style="display:none"></div>
+    </div>
+
+    <footer>case 05 of 15 // the hidden web yields to those who look</footer>
+</div>
+
+<script src="js/audio.js"></script>
+<script>
+    // ---------- Fragment D — revealed via console ----------
+    function finalize() {
+      const fragD = "ALIVE";
+      console.log("%c> FRAGMENT_D = " + fragD,
+                  "color:#4cf0c7;font-weight:bold");
+      console.log("%c  assemble: ACCESS_FOUND_DR_VEYRA_" + fragD,
+                  "color:#ffd166");
+      return fragD;
+    }
+    function hint() {
+      console.log("%c> call finalize() to receive fragment D.",
+                  "color:#7aa2ff");
+    }
+    console.log("%c[ veyra intranet — root terminal ]", "color:#4cf0c7");
+    console.log("%cAvailable: finalize(), hint()", "color:#7aa2ff");
+
+
+    const expected = {
+      full: "ACCESS_FOUND_DR_VEYRA_ALIVE",
+      parts: ["FOUND", "DR", "VEYRA", "ALIVE"]
+    };
+
+    function updateSteps() {
+      const v = (document.getElementById("answer").value || "").toUpperCase();
+      expected.parts.forEach(function (p, i) {
+        const el = document.querySelector('.step[data-step="' + (i + 1) + '"]');
+        const frag = document.getElementById("frag" + (i + 1));
+        if (v.indexOf(p) !== -1) {
+          el.classList.add("done");
+          frag.textContent = p;
+        } else {
+          el.classList.remove("done");
+          frag.textContent = "?";
+        }
+      });
+    }
+    document.getElementById("answer").addEventListener("input", updateSteps);
+
+    function submitFinal() {
+      const input = document.getElementById("answer");
+      const fb    = document.getElementById("feedback");
+      const final = document.getElementById("finalCard");
+      const v = (input.value || "").trim().toUpperCase();
+      if (v === expected.full) {
+        fb.className = "feedback ok reveal";
+        fb.textContent = "> ALL FRAGMENTS VERIFIED. case closed.";
+        window.DetectiveProgress.markComplete(5);
+        final.classList.add("show");
+        input.disabled = true;
+      } else {
+        fb.className = "feedback bad reveal";
+        fb.textContent = "> token incomplete or incorrect. review the four fragments.";
+      }
+    }
+</script>
+</body>
+</html>
+
