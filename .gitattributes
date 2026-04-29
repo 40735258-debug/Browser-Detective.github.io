@@ -1,7 +1,7 @@
-docs/**/*.html linguist-detectable=true
-docs/**/*.css linguist-detectable=true
-docs/**/*.js linguist-detectable=true
+docs/**/*.html linguist-detectable=true linguist-documentation=false
+docs/**/*.css linguist-detectable=true linguist-documentation=false
+docs/**/*.js linguist-detectable=true linguist-documentation=false
 
-*.html linguist-detectable=true
-*.css linguist-detectable=true
-*.js linguist-detectable=true
+*.html linguist-detectable=true linguist-documentation=false
+*.css linguist-detectable=true linguist-documentation=false
+*.js linguist-detectable=true linguist-documentation=false
